@@ -10,21 +10,21 @@ $( "body" ).bind( "keyup", function( event ) {
     $target       = $( event.target );
     const value   = $target.val();
     if ( reg.test( value )) {
-        $( "body" ).find( "#simpemoji" ).length == 0 && popup();
+        $( "body" ).find( "#simpemoji" ).length == 0 && dropdown();
     }
 });
 
 /**
- * Popup +emoji
+ * Dropdown +emoji
  */
-function popup() {
+function dropdown() {
     create();
     listen();
     face();
 }
 
 /**
- * Create popup
+ * Create
  */
 function create() {
     const box    = $target[0].getBoundingClientRect(),
