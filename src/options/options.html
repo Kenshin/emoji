@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>+Emoji Options</title>
+        <link rel="stylesheet" type="text/css" href="options.css">
+    </head>
+    <body>
+        <div id="emoji">
+            <fieldset class="fieldset">
+                <h1><img id="logo" src="../assets/icons/icon48.png" width="24" height="24" />+Emoji <span>options</span></h1>
+                <!-- <legend id="legendEmoji">General</legend> -->
+                <div class="field">
+                    <input type="number" name="fieldscale" id="fieldscale" min="0.1" max="5.0" step="0.1">
+                    <label for="fieldscale" id="labelscale">x size</label>
+                    <div class="fielddescription">This will adjust the size of the emoji displayed.</div>
+                </div>
+                <br>
+                <div class="field">
+                    <input type="checkbox" name="fieldhidePUA" id="fieldhidePUA">
+                    <label for="fieldhidePUA" id="labelhidePUA">Maximum Compatibility</label>
+                    <div class="fielddescription">Some custom fonts use characters from the <i>Private Use Area</i>. This options makes sure we don't break sites with such fonts. But keep in mind that some Emojis will not be shown when this is turned on (e.g. <a href="http://en.wikipedia.org/wiki/Emoji#SoftBank_encoding" target="_blank">SoftBank</a>)</div>
+                </div>
+                <br>
+                <div class="field">
+                    <input type="checkbox" name="fieldusefont" id="fieldusefont">
+                    <label for="fieldusefont" id="labelusefont">Use native font <span style="font-weight:normal;color:#777;">(instead of images)</span></label>
+                    <div class="fielddescription">If you have a native font installed on your system, +Emoji will attempt to use this instead of images ('Segoe UI Emoji' or 'Segoe UI Symbol'). Otherwise a font called 'Symbola' is used, which comes bundled with this extension.</div>
+                </div>
+                <br>
+                <div class="field">
+                    <label for="fieldblacklist" id="labeleblacklist">Blacklist</label>
+                    <div class="fielddescription">A list of domains which should NOT display emoji. For example if you typed test.com, it would disable emojis on all subdomains including images.test.com, mail.test.com, etc. You can separate them by commas (,) and newlines (&#x21a9;).</div>
+                    <div><textarea name="fieldblacklist" id="fieldblacklist"></textarea></div>
+                </div>
+            </fieldset>
+        </div>
+        <div id="buttons">
+            <button id="buttoncancel">Cancel</button>
+            <button id="buttonsave">OK</button>
+        </div>
+        <script type="text/javascript" src="options.js"></script>
+    </body>
+</html>

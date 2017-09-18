@@ -1,0 +1,21 @@
+{
+  "name": "+emoji_project_workflow",
+  "version": "1.0.0",
+  "description": "+Emoji develop/deploy",
+  "author": "Kenshin Wang <kenshin@ksria.com>",
+  "license": "MIT",
+  "homepage": "http://ksria.com/+emoji",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kenshin/+emoji.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kenshin/+emoji/issues",
+    "email": "kenshin@ksria.com"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}

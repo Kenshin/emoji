@@ -1,0 +1,132 @@
+* { margin: 0; padding: 0 }
+
+body {
+    font-family: -apple-system, PingFang SC, Microsoft Yahei, Lantinghei SC, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    color: #333;
+    width: 350px;
+    height: 200px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #e9e9e9; /*#eee;*/
+    background: linear-gradient(to bottom, #fafafa 0%,#eee 100%); /* W3C */
+}
+
+a:focus {
+    outline:0;
+}
+
+#faces-wrapper {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 30px 0 0 0;
+    height: 100%;
+    position: relative;
+}
+
+#faces {
+    width: 320px;
+    padding: 0 10px;
+    position: absolute;
+    top: 0;
+}
+
+#faces img {
+    width:25px;
+    height:25px;
+    margin:2px;
+    cursor:pointer;
+    -webkit-transition: all .15s;
+}
+
+#faces img:hover {
+    border-radius:3px;
+    /*background: #ddd;*/
+}
+
+#faces img:active {
+    -webkit-transition: none;
+    /*background: #ccc;*/
+    /*border-color: #bbb;*/
+}
+
+#menu {
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    background: #fafafa; /*#e9e9e9; /*#eee;*/
+    position: fixed;
+    width: 100%;
+    top:0;
+    left:0;
+    border-bottom:1px solid transparent;
+    padding: 6px 0;
+    z-index:10;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+#menu.scrolled {
+    box-shadow: 0 5px 5px rgba(0,0,0,.15);
+    border-color: #ddd;
+}
+
+#menu a {
+    border-left: 2px solid #ddd;
+    border-color:transparent;
+    padding: 0 7px;
+    display: block;
+    float: left;
+    color: #141414;
+    text-decoration: none;
+}
+#menu a.active {
+    color: #c31000;
+    /*background: #f1f1f1;*/
+}
+
+#menu a.recent {
+    border-right: 2px solid #ddd;
+}
+
+#feedback {
+    background: rgba(0,0,0,.8);
+    color: #fff;
+    position: absolute;
+    z-index: 100;
+    font-size: 13px;
+    font-weight: bold;
+    width: 52px;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    border-radius: 5px;
+    margin:1px;
+    left:0;
+    top:0;
+    display: none;
+    opacity:0;
+    -webkit-transition: opacity 0.20s ease-in-out;
+    -webkit-user-select: none;
+    cursor: pointer;
+
+    /*
+    background: rgba(220,30,0,.8);
+    background: rgba(100,200,0,.8);
+    background: rgba(0,140,255,.8);
+    */
+}
+.paste-feedback {
+    background: rgba(0,140,255,.8) !important;
+}
+.copy-feedback {
+    background: rgba(220,30,0,.8) !important;
+}
+
+#copy-container {
+  height:1px;
+  opacity:0;
+  position:absolute;
+  bottom:0
+}

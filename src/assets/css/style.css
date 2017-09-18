@@ -1,0 +1,44 @@
+
+#simpemoji {
+    display: none;
+    position: absolute;
+
+    padding: 5px;
+
+    background-color: white;
+    border: 1px solid black;
+
+    z-index: 999999999;
+}
+
+#simpemoji .simpemoji-bg {
+    display: none;
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    cursor: pointer;
+}
+
+#simpemoji .simpemoji-face {
+    display: flex;
+    flex-flow: row wrap;
+
+    max-height: 200px;
+
+    overflow: scroll;
+}
+
+#simpemoji .simpemoji-face img {
+    margin:2px;
+
+    width:25px;
+    height:25px;
+
+    cursor:pointer;
+    -webkit-transition: all .15s;
+}
