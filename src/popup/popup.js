@@ -9,7 +9,7 @@ var emojisByChar = {},
     items        = chardict.items;
 
 var faces, faces_wrapper, menu, copy_elem, feedback,
-    baseUrl = '../assets/faces'; //chrome.extension.getURL('faces');
+    baseUrl =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
 
 for (var i in items) {
   if (items.hasOwnProperty(i)) {
@@ -84,10 +84,11 @@ function menu_click(e) {
 function show_category( category ) {
     var html = '';
     categories[category].forEach( function( face ) {
-        var emoji = emojisByChar[face];
+        var emoji = emojisByChar[face],
+            image = emoji.image.replace( ".png", "" );
         html += '<img src="' + baseUrl  + '/' + emoji.image + '" ' +
                 '     alt="' + emoji.chars[0] + '" title="' + emoji.name + '" ' +
-                '     data-face="' + face + '" data-char="' + emoji.chars[0] + '" />';
+                '     data-face="' + image + '" data-char="' + emoji.chars[0] + '" />';
     });
     faces.innerHTML = html;
 }
