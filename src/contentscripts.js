@@ -42,14 +42,15 @@ function create() {
 function face() {
     let   html    = "";
     const items   = chardict.items,
-          baseUrl = chrome.extension.getURL( "assets/faces/" );
-
-    for (var i in items) {
-        if (items.hasOwnProperty(i)) {
-            const item = items[i];
-            html += '<img src="' + baseUrl  + '/' + item.image + '" ' +
+          flags   = [ "smileys", "symbols" ],
+          baseUrl = chrome.extension.getURL( "assets/faces/" ),
+          types   = categories["smileys"].concat( categories["symbols"] );
+    for ( let item of items ) {
+        const name = item.image.replace( ".png", "" );
+        if ( types.includes( name )) {
+            html += '<img src="' + baseUrl + item.image + '" ' +
                     '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
-                    '     data-face="' + item.name.replace( ".png", "" ) + '" data-char="' + item.chars[0] + '" />';
+                    '     data-face="' + name + '" data-char="' + item.chars[0] + '" />';
         }
     }
     $( ".simpemoji-face" ).html( html );
