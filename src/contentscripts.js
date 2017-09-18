@@ -74,7 +74,7 @@ function listen() {
  * @param  {emoji} emoji
  */
 function insert( value ) {
-    $target.val( $target.val().replace( reg, value ));
+    $target.val( $target.val().replace( reg, ` ${value} ` ));
 }
 
 /**
