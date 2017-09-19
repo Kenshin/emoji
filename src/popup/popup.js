@@ -137,7 +137,7 @@ function face_click(e) {
               id  : localStorage.message_id,
               face: e.target.dataset.char
           });
-          show_paste_feedback(e.target);
+          notifcation( "success", "已插入", e.target );
           localStorage.message_id = 0;
           // allFrames
           //chrome.tabs.executeScript({
@@ -151,7 +151,7 @@ function face_click(e) {
         });
     } else {
         copyToClipboard(e.target.dataset.char);
-        show_copy_feedback(e.target);
+        notifcation( "warning", "已复制", e.target );
     }
 }
 
@@ -185,10 +185,22 @@ function getSelectedTab(callback) {
 }
 
 /***********************
- * Feedback(  Notify )
+ * Feedback( notifcation )
  ***********************/
 
 var feedback_animations = [];
+
+/**
+* Message watcher push
+*
+* @param {string} include: success warning failed
+* @param {string} message
+* @param {element} html element
+*/
+function notifcation( type, message, element ) {
+    feedback.className = type +"-feedback";
+    show_feedback( message, element );
+}
 
 function show_feedback(text, face) {
     feedback.style.display = 'block';
@@ -214,26 +226,6 @@ function feedback_stop() {
     var timer;
     while (timer = feedback_animations.pop())
         clearTimeout(timer);
-}
-
-function show_copy_feedback(face) {
-    feedback.className = 'copy-feedback';
-    show_feedback('已复制', face);
-}
-
-function show_paste_feedback(face) {
-    feedback.className = 'paste-feedback';
-    show_feedback('已插入', face);
-}
-
-function show_success_feedback( message, face ) {
-    feedback.className = "paste-feedback";
-    show_feedback( message, face );
-}
-
-function show_failed_feedback( message, face ) {
-    feedback.className = "copy-feedback";
-    show_feedback( message, face );
 }
 
 function center_to_ref(el, ref) {
@@ -272,10 +264,7 @@ update();
  ***********************/
 
 /**
-* Message watcher push
-*
-* @param {string} type watcher object, incude: site
-* @param {string} value watcher object state
+* Get settings from response
 */
 chrome.runtime.sendMessage( "get_settings", function ( resp ) {
     if ( resp && resp.popup ) {
@@ -312,9 +301,9 @@ $( "#copy" ).click( function ( event ) {
     if ( $( "#multi-copy img" ).length > 0 ) {
         $( "#multi-copy img" ).map( function( idx, item ) { emojis.push( item.alt ); });
         copyToClipboard( emojis.join( " " ) );
-        show_success_feedback( "已复制", $( "body" )[0] );
+        notifcation( "success", "已复制", $( "body" )[0] );
     } else {
-        show_failed_feedback( "无内容", $( "body" )[0] );
+        notifcation( "failed", "无内容", $( "body" )[0] );
     }
 });
 
@@ -323,7 +312,7 @@ $( "#copy" ).click( function ( event ) {
 */
 $( "#clear" ).click( function ( event ) {
     $( "#multi-copy" ).html( "" );
-    show_success_feedback( "已清除", $( "body" )[0] );
+    notifcation( "warning", "已清除", $( "body" )[0] );
 });
 
 /***********************

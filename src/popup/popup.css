@@ -210,23 +210,23 @@ a:focus {
 
     border-radius: 5px;
 
-    opacity:0;
+    opacity: 0;
     -webkit-transition: opacity 0.20s ease-in-out;
     -webkit-user-select: none;
     cursor: pointer;
     z-index: 100;
+}
 
-    /*
-    background: rgba(220,30,0,.8);
-    background: rgba(100,200,0,.8);
-    background: rgba(0,140,255,.8);
-    */
+.success-feedback {
+    background: #2196F3 !important;
 }
-.paste-feedback {
-    background: rgba(0,140,255,.8) !important;
+
+.warning-feedback {
+    background: #8BC34A !important;
 }
-.copy-feedback {
-    background: rgba(220,30,0,.8) !important;
+
+.failed-feedback {
+    background: #FF5722 !important;
 }
 
 /**
