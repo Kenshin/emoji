@@ -126,6 +126,7 @@ function face_click(e) {
     if (e.target.nodeName != 'IMG') return;
 
     add_to_recent(e.target.dataset.face);
+    addToMulti( e.target );
 
     // if there's an input field waiting for a paste
     // let's give the face to him
@@ -225,6 +226,16 @@ function show_paste_feedback(face) {
     show_feedback('已插入', face);
 }
 
+function show_success_feedback( message, face ) {
+    feedback.className = "paste-feedback";
+    show_feedback( message, face );
+}
+
+function show_failed_feedback( message, face ) {
+    feedback.className = "copy-feedback";
+    show_feedback( message, face );
+}
+
 function center_to_ref(el, ref) {
     var el_rect = el.getBoundingClientRect();
     var ref_rect = ref.getBoundingClientRect();
@@ -255,6 +266,65 @@ faces_wrapper.onscroll = function () {
 }
 
 update();
+
+/***********************
+ * Bottom controlbar
+ ***********************/
+
+/**
+* Message watcher push
+*
+* @param {string} type watcher object, incude: site
+* @param {string} value watcher object state
+*/
+chrome.runtime.sendMessage( "get_settings", function ( resp ) {
+    if ( resp && resp.popup ) {
+        $( "#action" ).attr( "class", resp.popup );
+        $( "#action" ).text( resp.popup == "popup" ? "弹出" : "缩入" );
+    }
+});
+
+/**
+* Add emoji to multi-copy
+*
+* @param {html} html tag
+*/
+function addToMulti( element ) {
+    $( "#multi-copy" ).append( $( element ).clone() );
+}
+
+/**
+* Action element event handler
+*/
+$( "#action" ).click( function ( event ) {
+    const value = $( "#action" ).attr( "class" ) == "window" ? "popup" : "window";
+    setTimeout(function () {
+        window.close();
+        chrome.runtime.sendMessage({ id: "popup", value });
+    }, 350 );
+});
+
+/**
+* Copy element event handler
+*/
+$( "#copy" ).click( function ( event ) {
+    const emojis = [];
+    if ( $( "#multi-copy img" ).length > 0 ) {
+        $( "#multi-copy img" ).map( function( idx, item ) { emojis.push( item.alt ); });
+        copyToClipboard( emojis.join( " " ) );
+        show_success_feedback( "已复制", $( "body" )[0] );
+    } else {
+        show_failed_feedback( "无内容", $( "body" )[0] );
+    }
+});
+
+/**
+* Clear element event handler
+*/
+$( "#clear" ).click( function ( event ) {
+    $( "#multi-copy" ).html( "" );
+    show_success_feedback( "已清除", $( "body" )[0] );
+});
 
 /***********************
  * Comments
