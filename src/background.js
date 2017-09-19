@@ -16,6 +16,8 @@ function setDefaultSettings() {
         localStorage.usefont = 'false';
     if (typeof localStorage.blacklist == 'undefined')
         localStorage.blacklist = 'example.com, another-example.com';
+    if (typeof localStorage.popup == 'undefined')
+        localStorage.popup = 'popup';
 }
 
 function listener(request, sender, sendResponse) {
@@ -27,17 +29,22 @@ function listener(request, sender, sendResponse) {
         blacklist = blacklist.split(',');
 
         for (var i = blacklist.length; i--;)
-            blacklist[i] = blacklist[i].trim(); // TODO: on save?
+            blacklist[i] = blacklist[i].trim();
 
         if (blacklist.length == 1 && !blacklist[0])
             blacklist = [];
 
         sendResponse({
-            scale:     localStorage.scale,
-            usefont:   localStorage.usefont   == 'true',
-            hidePUA:   localStorage.hidePUA   == 'true',
-            blacklist: blacklist
+            scale     : localStorage.scale,
+            usefont   : localStorage.usefont == 'true',
+            hidePUA   : localStorage.hidePUA == 'true',
+            blacklist : blacklist,
+            popup     : localStorage.popup,
         });
+    } else if ( request && request.id == "popup" ) {
+        localStorage.popup = request.value;
+        localStorage.popup == "popup" ? removeWindow() : createWindow();
+        localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url }) : chrome.browserAction.setPopup({ popup: "" });
     }
     /*
     if (request == 'insertCSS') {
@@ -70,3 +77,49 @@ chrome.extension.onMessage.addListener(function (message) {
 chrome.tabs.onActivated.addListener(function () {
     localStorage.message_id = 0;
 });
+
+/***********************
+ * Browser action
+ ***********************/
+
+const popup_url = "popup/popup.html";
+let   popup     = {};
+
+chrome.browserAction.onClicked.addListener( function( event ) {
+    if ( popup && popup.id ) {
+        removeWindow();
+    } else {
+        createWindow();
+    }
+});
+
+chrome.windows.onRemoved.addListener( function( windowId ) {
+    if ( windowId == popup.id ) popup = {};
+});
+
+/**
+ * Create popup window
+ */
+function createWindow() {
+    chrome.tabs.create({
+        url        : chrome.extension.getURL( popup_url ),
+        active     : false
+    }, function ( tab ) {
+        chrome.windows.create({
+            tabId  : tab.id,
+            type   : "popup",
+            focused: true,
+            width  : 353, height : 290,
+        }, function ( window ) { popup = window; });
+    });
+}
+
+/**
+ * Remove popup window
+ */
+function removeWindow() {
+    chrome.windows.remove( popup.id );
+    popup = {};
+}
+
+localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url }) : chrome.browserAction.setPopup({ popup: "" });
