@@ -1,4 +1,7 @@
-* { margin: 0; padding: 0 }
+* {
+    margin: 0;
+    padding: 0
+}
 
 body {
     font-family: -apple-system, PingFang SC, Microsoft Yahei, Lantinghei SC, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
