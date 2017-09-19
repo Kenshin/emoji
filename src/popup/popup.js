@@ -42,7 +42,7 @@ function init() {
 
     // menu init
     menu             = document.getElementById("menu");
-    menu.onmousedown = menu_click;
+    menu.onmouseover = menu_click;
 
     // dummy elem used by copy and paste for text manipulation
     copy_elem        = document.createElement('input');
