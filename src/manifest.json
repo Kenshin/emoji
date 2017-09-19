@@ -37,7 +37,6 @@
             "19": "assets/icons/icon19.png",
             "38": "assets/icons/icon38.png"
         },
-        "default_popup": "popup/popup.html",
         "default_title": "+Emoji"
     },
     "permissions"             : [ "http://*/", "https://*/", "clipboardWrite", "storage", "tabs" ],
