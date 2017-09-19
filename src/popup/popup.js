@@ -128,6 +128,8 @@ function face_click(e) {
     add_to_recent(e.target.dataset.face);
     addToMulti( e.target );
 
+    const emoji = ` ${e.target.dataset.char} `;
+
     // if there's an input field waiting for a paste
     // let's give the face to him
     if (+localStorage.message_id)  {
@@ -135,7 +137,7 @@ function face_click(e) {
           chrome.tabs.sendMessage( tab.id, {
               name: 'face_to_paste',
               id  : localStorage.message_id,
-              face: e.target.dataset.char
+              face: emoji
           });
           notifcation( "success", "已插入", e.target );
           localStorage.message_id = 0;
@@ -150,7 +152,7 @@ function face_click(e) {
           //}, 350);
         });
     } else {
-        copyToClipboard(e.target.dataset.char);
+        copyToClipboard( emoji );
         notifcation( "warning", "已复制", e.target );
     }
 }
