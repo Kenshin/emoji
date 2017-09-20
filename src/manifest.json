@@ -39,6 +39,19 @@
         },
         "default_title": "+Emoji"
     },
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default" : "Ctrl+Shift+Y",
+                "windows" : "Ctrl+Shift+Y",
+                "mac"     : "Command+Shift+Y",
+                "chromeos": "Ctrl+Shift+Y",
+                "linux"   : "Ctrl+Shift+Y"
+            },
+            "description": "Open Popup",
+            "global"     : true
+        }
+    },
     "permissions"             : [ "http://*/", "https://*/", "clipboardWrite", "storage", "tabs" ],
     "web_accessible_resources": [ "assets/faces/*.png" ],
     "manifest_version": 2
