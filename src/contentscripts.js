@@ -7,10 +7,14 @@ const reg = /::([\u4e00-\u9fa5]|[a-zA-Z ])? $/;
  * Enerty point: listen keyup event
  */
 $( "body" ).bind( "keyup", function( event ) {
-    $target       = $( event.target );
-    const value   = $target.val();
-    if ( reg.test( value )) {
-        $( "body" ).find( "#simpemoji" ).length == 0 && dropdown();
+    if ( event.keyCode == 27 ) {
+        $( "body" ).find( "#simpemoji" ).length > 0 && remove();
+    } else {
+        $target       = $( event.target );
+        const value   = $target.val();
+        if ( reg.test( value )) {
+            $( "body" ).find( "#simpemoji" ).length == 0 && dropdown();
+        }
     }
 });
 
