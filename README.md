@@ -4,10 +4,10 @@
 
 ***
 
-#### 名字：
+### 名字：
 `+Emoji` _灵感来源于 文字 + Emoji 之意_
 
-#### 截图:
+### 截图:
 
 **独立窗口**  
 ![image](https://user-images.githubusercontent.com/31840739/30678148-df47e6c4-9e55-11e7-80cc-984c6bf8ee5b.png)
@@ -21,7 +21,7 @@
 **通过关键字插入**  
 ![image](https://user-images.githubusercontent.com/31840739/30686384-b8c7304a-9e7d-11e7-818b-849ee5e3e5e4.png)
 
-#### 功能:
+### 功能:
 
 - [x] emoji 使用了最基本的集合，支持任何 App；（ 均不会出现乱码情况）
 
@@ -36,7 +36,7 @@
 
 - [x] 支持快捷键呼出；
 
-#### 下一步：
+### 下一步：
 
 - [ ] 重构代码；
 
@@ -44,13 +44,13 @@
 
 - [ ] 定制化；
 
-#### 附一段使用视频：
+### 附一段使用视频：
 
 - [常规操作](https://i.imgur.com/XYTpirX.gif)
 
 - [语义化插入](https://i.imgur.com/GCPgNrt.gif)
 
-#### 已知问题：
+### 已知问题：
 
 - iFrame 无法使用  `dropdown` 模式;
 
@@ -58,7 +58,7 @@
 
 - 当为 `window` 独立使用状态时，插入功能失效；
 
-#### 感谢：
+### 感谢：
 
 > 由于是临时起兴，所以也希望有开源代码可以利用一下，结果找到了如下两个：
 
@@ -70,12 +70,12 @@
 
 > 所以 `+Emoji` 是在 `Emoji-Extension-for-Chrome` 的基础上开发的。
 
-#### 简悦的诞生离不开它们：
+### 简悦的诞生离不开它们：
 - [Node.js](https://nodejs.org/) · [NPM](https://www.npmjs.com)
 - [Webpack](https://webpack.github.io/)
 - 咖啡 · 网易音乐 · Google Chrome · rMBP
 
-#### 许可：
+### 许可：
 [![license-badge]][license-link]
 
 <!-- Link -->
