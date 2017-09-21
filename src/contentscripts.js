@@ -26,9 +26,7 @@ $( "body" ).bind( "keyup", function( event ) {
             $( "body" ).on( "keydown", bodyKeydownHandler );
             $( "body" ).find( "#simpemoji" ).length == 0 && dropdown();
             $input.keydown( inputKeydownHandler );
-            $input.one( "blur", function ( event ) {
-                event.target.focus();
-            });
+            $input.one( "blur", event => event.target.focus() );
         }
     }
 });
@@ -77,10 +75,8 @@ function face() {
  * Listen event
  */
 function listen() {
-    $( ".simpemoji-bg" ).click( function( event ) {
-        remove();
-    });
-    $( ".simpemoji-face" ).click( function( event ) {
+    $( ".simpemoji-bg"   ).click( event => remove() );
+    $( ".simpemoji-face" ).click( event => {
         if ( $( event.target ).is( "img" ) ) {
             insert( $( event.target ).attr( "data-char" ));
             remove();
