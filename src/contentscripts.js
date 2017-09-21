@@ -1,7 +1,8 @@
 console.log( "=== +emoji contentscripts load ===" )
 
 let $input;
-const reg = /::([\u4e00-\u9fa5]|[a-zA-Z ])? $/;
+const reg    = /::([\u4e00-\u9fa5]|[a-zA-Z ])? $/,
+      faces  = new Map();
 
 /**
  * Enerty point: listen keyup / keydown event
@@ -59,18 +60,16 @@ function create() {
  */
 function face() {
     let   html    = "";
-    const items   = chardict.items,
-          flags   = [ "smileys", "symbols" ],
+    const flags   = [ "smileys", "symbols" ],
           baseUrl = chrome.extension.getURL( "assets/faces/" ),
           types   = categories["smileys"].concat( categories["symbols"] );
-    for ( let item of items ) {
-        const name = item.image.replace( ".png", "" );
-        if ( types.includes( name )) {
-            html += '<img src="' + baseUrl + item.image + '" ' +
-                    '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
-                    '     data-face="' + name + '" data-char="' + item.chars[0] + '" />';
-        }
-    }
+    faces.size == 0 && chardict.items.forEach( item => faces.set( item.image, item ));
+    types.forEach( type => {
+        const item = faces.get( `${type}.png` );
+        item && ( html += '<img src="' + baseUrl + item.image + '" ' +
+                '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
+                '     data-face="' + type + '" data-char="' + item.chars[0] + '" />' );
+    });
     $( ".simpemoji-face" ).html( html );
 }
 
