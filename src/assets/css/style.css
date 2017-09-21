@@ -38,10 +38,17 @@
 
 #simpemoji .simpemoji-face img {
     margin: 2px;
+    padding: 2px;
 
     width: 25px;
     height: 25px;
 
     cursor: pointer;
     -webkit-transition: all .15s;
+}
+
+#simpemoji .simpemoji-face .highlight-face {
+    padding: 2px;
+    background-color: #E5E7E8;
+    border-radius: 3px;
 }
