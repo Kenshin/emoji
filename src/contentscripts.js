@@ -5,6 +5,12 @@ const reg = /::([\u4e00-\u9fa5]|[a-zA-Z ])? $/;
 
 /**
  * Enerty point: listen keyup / keydown event
+ *
+ * watch key:
+ * - All key     : when include reg insert dropdown
+ * - ESC( 27 )   : remove insert
+ * - Tab( 9  )   : click tab highlight face
+ * - Enter( 13 ) : enter click highlight face
  */
 $( "body" ).bind( "keyup", function( event ) {
     if ( event.keyCode == 27 ) {
@@ -112,7 +118,7 @@ function highlight() {
 }
 
 /**
- * Body keydown event handler
+ * Body keydown event handler, prevent tab key
  */
 function bodyKeydownHandler( event ) {
     if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 9 ) {
@@ -123,7 +129,7 @@ function bodyKeydownHandler( event ) {
 }
 
 /**
- * input keydown event handler
+ * input keydown event handler, prevent enter key
  */
 function inputKeydownHandler( event ) {
     if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 13 ) {
