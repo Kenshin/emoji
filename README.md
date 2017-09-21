@@ -2,6 +2,8 @@
 <h1 align="center">+Emoji</h1>
 <p align="center">一个简单、纯粹、语义化的 Emoji 扩展</p>
 
+***
+
 #### 名字：
 `+Emoji` _灵感来源于 文字 + Emoji 之意_
 
