@@ -1,20 +1,39 @@
 console.log( "=== +emoji contentscripts load ===" )
 
-let $target;
+let $input;
 const reg = /::([\u4e00-\u9fa5]|[a-zA-Z ])? $/;
 
 /**
- * Enerty point: listen keyup event
+ * Enerty point: listen keyup / keydown event
  */
 $( "body" ).bind( "keyup", function( event ) {
     if ( event.keyCode == 27 ) {
         $( "body" ).find( "#simpemoji" ).length > 0 && remove();
+    } else if ( event.keyCode == 9 ) {
+        $( "body" ).find( "#simpemoji" ).length > 0 && highlight();
+    } else if ( event.keyCode == 13 ) {
+        $( "body" ).find( "#simpemoji img" ).length > 0 && enter();
     } else {
-        $target       = $( event.target );
-        const value   = $target.val();
-        if ( reg.test( value )) {
+        $input = $( event.target );
+        if ( reg.test( $input.val() )) {
             $( "body" ).find( "#simpemoji" ).length == 0 && dropdown();
+            $input.keydown( function( event ) {
+                if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 13 ) {
+                    return false;
+                }
+            });
+            $input.one( "blur", function ( event ) {
+                event.target.focus();
+            });
         }
+    }
+});
+
+$( "body" ).bind( "keydown", function( event ) {
+    if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 9 ) {
+        return false;
+    } else {
+        return true;
     }
 });
 
@@ -31,13 +50,13 @@ function dropdown() {
  * Create
  */
 function create() {
-    const box    = $target[0].getBoundingClientRect(),
+    const box    = $input[0].getBoundingClientRect(),
           offest = {
               top : box.top  + window.pageYOffset - document.documentElement.clientTop,
               left: box.left + window.pageXOffset - document.documentElement.clientLeft
     };
     $( "body"       ).append( '<div id="simpemoji"><div class="simpemoji-face"></div><div class="simpemoji-bg"></div></div>' );
-    $( "#simpemoji" ).attr( "style", 'left:' + offest.left + 'px;top:' + ( offest.top + $target[0].offsetHeight ) + 'px;width:' + ($target[0].offsetWidth - 10) + 'px;display:block;position:absolute;z-index:99999999;' );
+    $( "#simpemoji" ).attr( "style", 'left:' + offest.left + 'px;top:' + ( offest.top + $input[0].offsetHeight ) + 'px;width:' + ($input[0].offsetWidth - 10) + 'px;display:block;position:absolute;z-index:99999999;' );
 }
 
 /**
@@ -68,8 +87,10 @@ function listen() {
         remove();
     });
     $( ".simpemoji-face" ).click( function( event ) {
-        insert( $( event.target ).attr( "data-char" ));
-        remove();
+        if ( $( event.target ).is( "img" ) ) {
+            insert( $( event.target ).attr( "data-char" ));
+            remove();
+        }
     });
 }
 
@@ -78,7 +99,27 @@ function listen() {
  * @param  {emoji} emoji
  */
 function insert( value ) {
-    $target.val( $target.val().replace( reg, ` ${value} ` ));
+    $input.val( $input.val().replace( reg, ` ${value} ` ));
+}
+
+/**
+ * Keyboard click enter
+ */
+function enter() {
+    $( ".simpemoji-face" ).find( "img.highlight-face" )[0].click();
+}
+
+/**
+ * Hight light
+ */
+function highlight() {
+    const $target = $( ".simpemoji-face" );
+    if ( $target.find( ".highlight-face" ).length == 0 ) {
+        $($target.find( "img" )[0]).addClass( "highlight-face" );
+    } else {
+        const $highlight = $target.find( "img.highlight-face" );
+        $highlight.removeClass( "highlight-face" ).next().addClass( "highlight-face" );
+    }
 }
 
 /**
@@ -88,4 +129,5 @@ function remove() {
     $( ".simpemoji-bg"   ).off();
     $( ".simpemoji-face" ).off();
     $( "#simpemoji"      ).off().remove();
+    $input = undefined;
 }
