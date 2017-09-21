@@ -1,7 +1,7 @@
 console.log( "=== +emoji contentscripts load ===" )
 
 let $input;
-const reg    = /::([\u4e00-\u9fa5]|[a-zA-Z ])? $/,
+const reg    = /::([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
       faces  = new Map();
 
 /**
@@ -24,7 +24,7 @@ $( "body" ).bind( "keyup", function( event ) {
         $input = $( event.target );
         if ( reg.test( $input.val() )) {
             $( "body" ).on( "keydown", bodyKeydownHandler );
-            $( "body" ).find( "#simpemoji" ).length == 0 && dropdown();
+            $( "body" ).find( "#simpemoji" ).length == 0 && dropdown( $input.val().match( reg )[0] );
             $input.keydown( inputKeydownHandler );
             $input.one( "blur", event => event.target.focus() );
         }
@@ -33,11 +33,13 @@ $( "body" ).bind( "keyup", function( event ) {
 
 /**
  * Dropdown +emoji
+ *
+ * @param  {string} [::<same keyword> ]
  */
-function dropdown() {
+function dropdown( value ) {
     create();
     listen();
-    face();
+    face( value );
 }
 
 /**
@@ -55,8 +57,11 @@ function create() {
 
 /**
  * Add face
+ *
+ * @param  {string} [::<same keyword> ]
  */
-function face() {
+function face( filter ) {
+    filter        = filter.replace( /::| /ig, "" );
     let   html    = "";
     const flags   = [ "smileys", "symbols" ],
           baseUrl = chrome.extension.getURL( "assets/faces/" ),
@@ -64,9 +69,11 @@ function face() {
     faces.size == 0 && chardict.items.forEach( item => faces.set( item.image, item ));
     types.forEach( type => {
         const item = faces.get( `${type}.png` );
-        item && ( html += '<img src="' + baseUrl + item.image + '" ' +
-                '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
-                '     data-face="' + type + '" data-char="' + item.chars[0] + '" />' );
+        if ( item && item.name.toLowerCase().includes( filter.toLowerCase() ) ) {
+            html += '<img src="' + baseUrl + item.image + '" ' +
+                    '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
+                    '     data-face="' + type + '" data-char="' + item.chars[0] + '" />';
+        }
     });
     $( ".simpemoji-face" ).html( html );
 }
@@ -86,6 +93,7 @@ function listen() {
 
 /**
  * Insert emoji to $target
+ *
  * @param  {emoji} emoji
  */
 function insert( value ) {
