@@ -16,24 +16,13 @@ $( "body" ).bind( "keyup", function( event ) {
     } else {
         $input = $( event.target );
         if ( reg.test( $input.val() )) {
+            $( "body" ).on( "keydown", bodyKeydownHandler );
             $( "body" ).find( "#simpemoji" ).length == 0 && dropdown();
-            $input.keydown( function( event ) {
-                if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 13 ) {
-                    return false;
-                }
-            });
+            $input.keydown( inputKeydownHandler );
             $input.one( "blur", function ( event ) {
                 event.target.focus();
             });
         }
-    }
-});
-
-$( "body" ).bind( "keydown", function( event ) {
-    if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 9 ) {
-        return false;
-    } else {
-        return true;
     }
 });
 
@@ -123,11 +112,32 @@ function highlight() {
 }
 
 /**
+ * Body keydown event handler
+ */
+function bodyKeydownHandler( event ) {
+    if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 9 ) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/**
+ * input keydown event handler
+ */
+function inputKeydownHandler( event ) {
+    if ( $( "body" ).find( "#simpemoji" ).length > 0 && event.keyCode == 13 ) {
+        return false;
+    }
+}
+/**
  * Remove and clear
  */
 function remove() {
     $( ".simpemoji-bg"   ).off();
     $( ".simpemoji-face" ).off();
     $( "#simpemoji"      ).off().remove();
+    $( "body"            ).off( "keydown", bodyKeydownHandler )
+    $input.off( "keydown", inputKeydownHandler );
     $input = undefined;
 }
