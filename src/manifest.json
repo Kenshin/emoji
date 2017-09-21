@@ -31,7 +31,6 @@
         "run_at": "document_end",
         "all_frames" : true
     }],
-    "options_page"   : "options/options.html",
     "browser_action" : {
         "default_icon": {
             "19": "assets/icons/icon19.png",
