@@ -2,6 +2,7 @@
     "name"           : "__MSG_extName__",
     "short_name"     : "+Emoji",
     "version"        : "1.0.0",
+    "version_name"   : "内部测试版 1.0.0",
     "description"    : "__MSG_desc__",
     "default_locale" : "en",
     "homepage_url"   : "http://ksria.com/emoji",
