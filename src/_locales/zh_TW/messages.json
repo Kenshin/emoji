@@ -1,9 +1,9 @@
 {
    "desc": {
-      "message": "Simple emoji."
+      "message": "一個基於 Chrome 簡單、可靠、純粹、中文語義化的 Emoji 擴展。"
    },
    "extName": {
-      "description": "一個簡單、純粹、語義化的 Emoji 擴展。",
+      "description": "Extension name.",
       "message": "+Emoji"
    }
 }
