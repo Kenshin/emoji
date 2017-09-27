@@ -77,7 +77,7 @@ _均不会出现乱码情况_
 > 所以 `+Emoji` 是在 `Emoji-Extension-for-Chrome` 的基础上开发的。
 
 ### 简悦的诞生离不开它们：
-- [emoji 来源于 Google Android 7.0](https://github.com/googlei18n/noto-emoji)
+- Emoji 来源于 [Google Android 7.0](https://github.com/googlei18n/noto-emoji)
 - LOGO 来源于 [ShareIcon](https://www.shareicon.net/wink-interface-faces-emoji-ideogram-tongue-feelings-emoticons-smileys-798496)
 - [Node.js](https://nodejs.org/) · [NPM](https://www.npmjs.com)
 - [Webpack](https://webpack.github.io/)
