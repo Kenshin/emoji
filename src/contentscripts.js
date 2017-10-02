@@ -2,8 +2,7 @@ console.log( "=== +emoji contentscripts load ===" )
 
 let $input;
 const reg    = /::([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
-      faces  = new Map(),
-      chars  = new Set();
+      faces  = new Map();
 
 /**
  * Enerty point: listen keyup / keydown event
@@ -73,6 +72,7 @@ function face( filter ) {
     faces.size == 0 && chardict.items.forEach( item => faces.set( item.image, item ));
 
     if ( filter.match( /[\u4e00-\u9fa5]+/ )) {
+        const chars  = new Set();
         Object.keys( zh_emoji ).forEach( item => {
             item.includes( filter ) &&
                 zh_emoji[item].forEach( emoji => chars.add( unicode( emoji)) );
@@ -160,7 +160,7 @@ function remove() {
     $( ".simpemoji-face" ).off();
     $( "#simpemoji"      ).off().remove();
     $( "body"            ).off( "keydown", bodyKeydownHandler )
-    $input.off( "keydown", inputKeydownHandler );
+    $input && $input.off( "keydown", inputKeydownHandler );
     $input = undefined;
 }
 
