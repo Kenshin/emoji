@@ -2,7 +2,8 @@ console.log( "=== +emoji contentscripts load ===" )
 
 let $input;
 const reg    = /::([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
-      faces  = new Map();
+      faces  = new Map(),
+      chars  = new Set();
 
 /**
  * Enerty point: listen keyup / keydown event
@@ -63,18 +64,30 @@ function create() {
 function face( filter ) {
     filter        = filter.replace( /::| /ig, "" );
     let   html    = "";
-    const flags   = [ "smileys", "symbols" ],
-          baseUrl = chrome.extension.getURL( "assets/faces/" ),
-          types   = categories["smileys"].concat( categories["symbols"] );
-    faces.size == 0 && chardict.items.forEach( item => faces.set( item.image, item ));
-    types.forEach( type => {
-        const item = faces.get( `${type}.png` );
-        if ( item && item.name.toLowerCase().includes( filter.toLowerCase() ) ) {
+    const baseUrl = chrome.extension.getURL( "assets/faces/" ),
+          render  = ( item, type ) => {
             html += '<img src="' + baseUrl + item.image + '" ' +
                     '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
                     '     data-face="' + type + '" data-char="' + item.chars[0] + '" />';
-        }
-    });
+          };
+    faces.size == 0 && chardict.items.forEach( item => faces.set( item.image, item ));
+
+    if ( filter.match( /[\u4e00-\u9fa5]+/ )) {
+        Object.keys( zh_emoji ).forEach( item => {
+            item.includes( filter ) &&
+                zh_emoji[item].forEach( emoji => chars.add( unicode( emoji)) );
+        });
+        Array.from( chars ).forEach( type => {
+            const item = faces.get( `${type}.png` );
+            item && render( item, type );
+        });
+    } else {
+        const types = categories["smileys"].concat( categories["symbols"] );
+        types.forEach( type => {
+            const item = faces.get( `${type}.png` );
+            item && item.name.toLowerCase().includes( filter.toLowerCase() ) && render( item, type );
+        });
+    }
     $( ".simpemoji-face" ).html( html );
 }
 
@@ -149,4 +162,21 @@ function remove() {
     $( "body"            ).off( "keydown", bodyKeydownHandler )
     $input.off( "keydown", inputKeydownHandler );
     $input = undefined;
+}
+
+/**
+ * Emoji to unicode
+ *
+ * @param  {emoji}   emoji
+ * @return {unicode} unicode
+ */
+function unicode( input ) {
+    if (input.length === 1) {
+        return input.charCodeAt(0);
+    }
+    var comp = (input.charCodeAt(0) - 0xD800) * 0x400 + (input.charCodeAt(1) - 0xDC00) + 0x10000;
+    if (comp < 0) {
+        return input.charCodeAt(0);
+    }
+    return comp.toString("16");
 }
