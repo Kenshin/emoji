@@ -1,7 +1,7 @@
 console.log( "=== +emoji contentscripts load ===" )
 
 let $input;
-const reg    = /::([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
+const reg    = /(::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
       faces  = new Map();
 
 /**
@@ -37,7 +37,7 @@ $( "body" ).bind( "keyup", function( event ) {
  * @param  {string} [::<same keyword> ]
  */
 function face( filter ) {
-    filter        = filter.replace( /::| /ig, "" );
+    filter        = filter.replace( /(::|[\uff1a]{2})| /ig, "" );
     let   html    = "";
     const baseUrl = chrome.extension.getURL( "assets/faces/" ),
           render  = ( item, type ) => {
