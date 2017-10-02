@@ -15,6 +15,9 @@ https://github.com/Kenshin/emoji/releases
 **独立窗口**  
 ![image](https://user-images.githubusercontent.com/31840739/30678148-df47e6c4-9e55-11e7-80cc-984c6bf8ee5b.png)
 
+**语义化**  
+<img src="https://i.imgur.com/c4IhA0Y.gif" />
+
 **Popup 窗口**  
 ![image](https://user-images.githubusercontent.com/31840739/30730829-7038822c-9f2f-11e7-966a-10655f8a1e7f.png)
 
@@ -29,24 +32,28 @@ https://github.com/Kenshin/emoji/releases
 - 使用了最基本的 emoji 集合，支持任何 App；  
 _均不会出现乱码情况_
 
-- 快捷键插入后，光标仍处于输入框中；
-
-- 颜值尚能接受；  
-  _全部的 emoji 使用了 Google Android 7.0_
-
-- 可作为独立窗口存在；
-
-- 支持关键字（英文）查询匹配 emoji；
+- 支持关键字（中/英文）查询匹配 emoji；  
+  > 呼出关键字 <:: / ：：> <关键字 / 空格> <空格>  
+  > 例如：
+  > - `::gr　`   // 查询关键字 gr 为内容的 emoji
+  > - `::　　`    // 查询全部 emoji
+  > - `：：笑　` // 查询中文语义
+  > - `：：　　`  // 查询全部 emoji
 
 - 复制到剪切板并支持多个复制；
 
-- 支持快捷键呼出； _默认快捷键 `command / ctrl + Shift + Y`_
+- 支持快捷键呼出；  
+  _默认快捷键 <kbd>command / ctrl + Shift + Y</kbd>_
+
+- 可作为独立窗口存在；
+
+- 快捷键插入后，光标仍处于输入框中；
+
+- 全部的 emoji 使用了 Google Android 7.0
 
 ### 下一步：
 
 - [ ] 重构代码；
-
-- [ ] 中文语义化支持；
 
 - [ ] 定制化；
 
@@ -66,15 +73,15 @@ _均不会出现乱码情况_
 
 ### 感谢：
 
-> 希望有开源代码可以利用一下，结果找到了如下两个：
+> 希望有开源代码可以利用一下，结果找到了如下三个：
 
-- https://github.com/Janson-Leung/Emoji-Extension-for-Chrome
+- https://github.com/Janson-Leung/Emoji-Extension-for-Chrome  
 
 - https://github.com/locomojis/Chromoji
 
-虽然 `Emoji-Extension-for-Chrome` 有 [LICENSE](https://github.com/Janson-Leung/Emoji-Extension-for-Chrome/blob/master/LICENSE) 但只是自己写的一段内容而已。（ _+Emoji 发布后，我会在显著位置注明上述开源地址及作者_ ）
+- https://github.com/dofy/apple-emoji-dict
 
-> 所以 `+Emoji` 是在 `Emoji-Extension-for-Chrome` 的基础上开发的。
+> **`+Emoji` 是在 [Emoji-Extension-for-Chrome](https://github.com/Janson-Leung/Emoji-Extension-for-Chrome) 的基础上开发的；中文语义字典由 [apple-emoji-dict](https://github.com/dofy/apple-emoji-dict) 提供来源。** _（ +Emoji 正式版发布后，我会在显著位置注明上述开源地址及作者）_
 
 ### 简悦的诞生离不开它们：
 - Emoji 来源于 [Google Android 7.0](https://github.com/googlei18n/noto-emoji)
