@@ -21,6 +21,7 @@
         ],
         "js": [
             "vender/jquery-2.1.1.min.js",
+            "vender/emoji/zh_emoji.js",
             "vender/emoji/categories.js",
             "vender/emoji/chardict.js",
             "vender/emoji/emoji_insert.js",
