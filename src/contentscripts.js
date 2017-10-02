@@ -32,29 +32,6 @@ $( "body" ).bind( "keyup", function( event ) {
 });
 
 /**
- * Dropdown +emoji
- *
- * @param {string} html
- */
-function dropdown( html ) {
-    create( html );
-    listen();
-}
-
-/**
- * Create
- */
-function create( value ) {
-    const box    = $input[0].getBoundingClientRect(),
-          offest = {
-              top : box.top  + window.pageYOffset - document.documentElement.clientTop,
-              left: box.left + window.pageXOffset - document.documentElement.clientLeft
-    };
-    $( "body"       ).append( `<div id="simpemoji"><div class="simpemoji-face">${value}</div><div class="simpemoji-bg"></div></div>` );
-    $( "#simpemoji" ).attr( "style", 'left:' + offest.left + 'px;top:' + ( offest.top + $input[0].offsetHeight ) + 'px;width:' + ($input[0].offsetWidth - 10) + 'px;display:block;position:absolute;z-index:99999999;' );
-}
-
-/**
  * Add face
  *
  * @param  {string} [::<same keyword> ]
@@ -88,6 +65,29 @@ function face( filter ) {
         });
     }
     html != "" && dropdown( html );
+}
+
+/**
+ * Dropdown +emoji
+ *
+ * @param {string} html
+ */
+function dropdown( html ) {
+    create( html );
+    listen();
+}
+
+/**
+ * Create
+ */
+function create( value ) {
+    const box    = $input[0].getBoundingClientRect(),
+          offest = {
+              top : box.top  + window.pageYOffset - document.documentElement.clientTop,
+              left: box.left + window.pageXOffset - document.documentElement.clientLeft
+    };
+    $( "body"       ).append( `<div id="simpemoji"><div class="simpemoji-face">${value}</div><div class="simpemoji-bg"></div></div>` );
+    $( "#simpemoji" ).attr( "style", 'left:' + offest.left + 'px;top:' + ( offest.top + $input[0].offsetHeight ) + 'px;width:' + ($input[0].offsetWidth - 10) + 'px;display:block;position:absolute;z-index:99999999;' );
 }
 
 /**
