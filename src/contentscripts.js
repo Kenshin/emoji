@@ -1,5 +1,9 @@
 console.log( "=== +emoji contentscripts load ===" )
 
+import categories from 'categories';
+import chardict   from 'chardict';
+import zh_emoji   from 'zh_emoji';
+
 let $input;
 const reg    = /(::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
       faces  = new Map();

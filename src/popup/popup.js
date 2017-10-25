@@ -1,5 +1,8 @@
 console.log( "=== +emoji popup load ===" )
 
+import categories from 'categories';
+import chardict   from 'chardict';
+
 /***********************
  * Init
  ***********************/
