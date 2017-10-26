@@ -76,7 +76,8 @@ const webpack = require( 'webpack' ),
               except: [ '$', 'exports', 'require' ]
             },
             output: {
-              comments: false
+              comments: false,
+              ascii_only: true
             }
           })
         );
