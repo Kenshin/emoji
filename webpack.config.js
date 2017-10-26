@@ -49,10 +49,7 @@ const webpack = require( 'webpack' ),
             { from   : "src/manifest.json" ,             to : '../' },
 
             { from   : 'src/options/options.html',       to : '../options/' },
-            { from   : 'src/options/options.css',        to : '../options/' },
-
             { from   : 'src/popup/popup.html',           to : '../popup/' },
-            { from   : 'src/popup/popup.css',            to : '../popup/' },
 
             { context: 'src/assets/',     from : "*/*" , to : '../assets/' },
             { context: 'src/_locales/',   from : "*/*" , to : '../_locales/' },
