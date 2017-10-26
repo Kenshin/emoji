@@ -166,6 +166,7 @@ const webpack = require( 'webpack' ),
         alias : {
 
           option     : __dirname + '/src/options/options.js',
+          setting    : __dirname + '/src/options/setting.jsx',
           option_css : __dirname + '/src/options/options.css',
 
           popup      : __dirname + '/src/popup/popup.js',

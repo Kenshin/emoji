@@ -4,6 +4,7 @@
 
  :root {
     --text-color: color(#000 alpha(-13%));
+    --primary-color: #94AC3C;
     --secondary-color: color(#000 alpha(-46%));
     --background-color: #eeeeee;
     --link-color: #295BA7;
@@ -58,7 +59,7 @@ a {
     width: 100%;
     height: 100px;
 
-    background-color: #94AC3C;
+    background-color: var(--primary-color);
 
     box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
 
@@ -119,6 +120,13 @@ a {
     border-radius: 2px;
 
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.setting text-field-state {
+    border-top: none var(--primary-color)!important;
+    border-left: none var(--primary-color)!important;
+    border-right: none var(--primary-color)!important;
+    border-bottom: 2px solid var(--primary-color)!important;
 }
 
 .about .title {
