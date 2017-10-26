@@ -11,7 +11,7 @@ const webpack = require( 'webpack' ),
 
       // chunk files
       new webpack.optimize.CommonsChunkPlugin({
-        names     : [ 'vendors', 'emoji_popup', 'emoji_contentscripts', 'common' ],
+        names     : [ 'emoji_popup', 'emoji_contentscripts', 'common' ],
         minChunks : Infinity
       }),
 
@@ -170,6 +170,9 @@ const webpack = require( 'webpack' ),
 
           option     : __dirname + '/src/options/options.js',
           option_css : __dirname + '/src/options/options.css',
+
+          popup      : __dirname + '/src/popup/popup.js',
+          popup_css  : __dirname + '/src/popup/popup.css',
 
           chardict   : __dirname + '/src/vender/emoji/chardict.js',
           categories : __dirname + '/src/vender/emoji/categories.js',

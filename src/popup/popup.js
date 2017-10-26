@@ -1,5 +1,6 @@
 console.log( "=== +emoji popup load ===" )
 
+import 'popup_css';
 import categories from 'categories';
 import chardict   from 'chardict';
 
