@@ -169,6 +169,7 @@ const webpack = require( 'webpack' ),
         alias : {
 
           option     : __dirname + '/src/options/options.js',
+          option_css : __dirname + '/src/options/options.css',
 
           chardict   : __dirname + '/src/vender/emoji/chardict.js',
           categories : __dirname + '/src/vender/emoji/categories.js',

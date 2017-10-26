@@ -1,4 +1,5 @@
 
+/*
 function loadOptions() {
     var scale = document.getElementById("fieldscale");
     scale.value = localStorage["scale"];
@@ -44,3 +45,6 @@ function init() {
 }
 
 document.body.addEventListener("load", init());
+*/
+
+import 'option_css';
