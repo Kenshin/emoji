@@ -131,6 +131,30 @@ a {
     font-size: 2rem;
 }
 
+.about .social {
+    @apply --title;
+
+    display: flex;
+    justify-content: center;
+}
+
+.about .social a {
+    margin: 0 10px;
+
+    opacity: .7;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+.about .social a:hover {
+    opacity: 1;
+}
+
+.about .social .icon {
+    display: block;
+    width: 22px;
+    height: 22px;
+}
+
 .about .content {
     font-size: 1.5rem;
     text-align: left;
