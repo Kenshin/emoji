@@ -16,7 +16,7 @@ let $input, storage,
     reg     = new RegExp( trigger.prefix + trigger.suffix );
 
 /**
-* Entry: Get settings from response
+* keyUpEventHandler: Get settings from response
 */
 chrome.runtime.sendMessage( "get_settings", function ( resp ) {
     console.log( "get_settings", resp )
@@ -30,10 +30,12 @@ chrome.runtime.sendMessage( "get_settings", function ( resp ) {
         reg = new RegExp( storage.regexp );
     }
     console.log( "current regexp is ", reg, reg.source )
+
+    $( "body" ).bind( "keyup", keyUpEventHandler );
 });
 
 /**
- * Entry point: listen keyup / keydown event
+ * Listen keyup / keydown event
  *
  * watch key:
  * - All key     : when include reg insert dropdown
@@ -41,7 +43,7 @@ chrome.runtime.sendMessage( "get_settings", function ( resp ) {
  * - Tab( 9  )   : click tab highlight face
  * - Enter( 13 ) : enter click highlight face
  */
-$( "body" ).bind( "keyup", function( event ) {
+function keyUpEventHandler( event ) {
     if ( event.keyCode == 27 ) {
         $( "body" ).find( "#simpemoji" ).length > 0 && remove();
     } else if ( event.keyCode == 9 ) {
@@ -57,7 +59,7 @@ $( "body" ).bind( "keyup", function( event ) {
             $input.one( "blur", event => event.target.focus() );
         }
     }
-});
+}
 
 /**
  * Add face
