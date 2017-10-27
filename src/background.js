@@ -69,15 +69,6 @@ function listener( request, sender, sendResponse ) {
         localStorage.clear();
         initialize();
     }
-    /*
-    if (request == 'insertCSS') {
-        chrome.tabs.insertCSS(sender.tab.id, {
-          file: 'backup/sprite/sprite.css',
-          allFrames: true
-        })
-        return true
-    }
-    */
 }
 
 /***********************
