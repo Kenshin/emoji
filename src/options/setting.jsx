@@ -13,23 +13,23 @@ export default class Setting extends React.Component {
             <div>
                 <Switch width="100%" checked={ false }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
-                    label="Emoji 在复制或插入后是否前后增加一个空格？"
+                    label="在复制或插入 Emoji 时是否前后增加一个空格？"
                 />
                 <Switch width="100%" checked={ false }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
-                    label="插入 emoji 后是否也复制到剪切板？"
+                    label="插入 Emoji 后是否也同时复制到剪切板？"
                 />
                 <Switch width="100%" checked={ false }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
-                    label="Popup Tab 栏是否启用点击切换？"
+                    label="Popup Tab 栏是否启用点击切换？（默认为鼠标悬停切换）"
                 />
                 <TextField 
                     multi={ false }
-                    placeholder="插入 emoji 的触发条件默认为 英文/中文 冒号 + 英文/中文 + 空格，例如 ::face 或 ：：笑 "
+                    placeholder="插入 Emoji 的触发条件默认为 中英文冒号 + 中英文关键字 + 空格，例如 ::face 或 ：：笑 "
                 />
                 <Switch width="100%" checked={ false }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
-                    label="是否开启触发条件高级方式？"
+                    label="是否开启触发条件高级模式？（开启后，触发条件将会失效）"
                 />
                 <TextField 
                     multi={ false }
