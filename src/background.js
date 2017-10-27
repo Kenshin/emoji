@@ -61,6 +61,13 @@ function listener( request, sender, sendResponse ) {
         localStorage.popup = request.value;
         localStorage.popup == "popup" ? removeWindow() : createWindow();
         localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url }) : chrome.browserAction.setPopup({ popup: "" });
+    } else if ( request && request.id == "set_settings" ) {
+        Object.keys( request.value ).forEach( key => {
+            localStorage[key] = request.value[key];
+        });
+    } else if ( request && request.id == "clear_settings" ) {
+        localStorage.clear();
+        initialize();
     }
     /*
     if (request == 'insertCSS') {
