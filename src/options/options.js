@@ -49,9 +49,9 @@ document.body.addEventListener("load", init());
 */
 
 import 'option_css';
+import '../vender/notify/notify.css';
 
 import Velocity  from 'velocity';
-
 import Setting   from 'setting';
 
 /**
