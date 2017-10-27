@@ -4,12 +4,36 @@ import categories from 'categories';
 import chardict   from 'chardict';
 import zh_emoji   from 'zh_emoji';
 
-let $input;
-const reg    = /(::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
-      faces  = new Map();
+// (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
+const trigger = {
+    prefix: "(::|[\uff1a]{2})",
+    suffix: "([\u4e00-\u9fa5]|[a-zA-Z ])+ "
+},
+faces = new Map();
+
+let $input, storage,
+    status  = "pending",
+    reg     = new RegExp( trigger.prefix + trigger.suffix );
 
 /**
- * Enerty point: listen keyup / keydown event
+* Entry: Get settings from response
+*/
+chrome.runtime.sendMessage( "get_settings", function ( resp ) {
+    console.log( "get_settings", resp )
+    status  = "complete";
+    storage = { ...resp };
+
+    if ( !storage.advanced && storage.trigger != "" ) {
+        trigger.prefix = `(${storage.trigger})`;
+        reg = new RegExp( trigger.prefix + trigger.suffix );
+    } else if ( storage.advanced && storage.regexp != "" ) {
+        reg = new RegExp( storage.regexp );
+    }
+    console.log( "current regexp is ", reg, reg.source )
+});
+
+/**
+ * Entry point: listen keyup / keydown event
  *
  * watch key:
  * - All key     : when include reg insert dropdown
@@ -41,7 +65,8 @@ $( "body" ).bind( "keyup", function( event ) {
  * @param  {string} [::<same keyword> ]
  */
 function face( filter ) {
-    filter        = filter.replace( /(::|[\uff1a]{2})| /ig, "" );
+    const reg     = new RegExp( `(${trigger.prefix})| `, "ig" );
+    filter        = filter.replace( reg, "" );
     let   html    = "";
     const baseUrl = chrome.extension.getURL( "assets/faces/" ),
           render  = ( item, type ) => {
