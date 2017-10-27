@@ -4,43 +4,59 @@ console.log( "=== +emoji background load ===" )
  * Init
  ***********************/
 
-setDefaultSettings();
-chrome.extension.onMessage.addListener(listener);
+const storage = {
+    version : "1.0.0",
+    message_id: 0,
+    popup   : "popup",
+    blank   : false,
+    clip    : false,
+    clicked : false,
+    advanced: false,
+    trigger : "",
+    regexp  : "",
+    blacklist: [
+        "twitter.com",
+        "google.com"
+    ]
+};
 
-function setDefaultSettings() {
-    if (typeof localStorage.scale == 'undefined')
-        localStorage.scale = 1.0;
-    if (typeof localStorage.hidePUA == 'undefined')
-        localStorage.hidePUA = 'true';
-    if (typeof localStorage.usefont == 'undefined')
-        localStorage.usefont = 'false';
-    if (typeof localStorage.blacklist == 'undefined')
-        localStorage.blacklist = 'example.com, another-example.com';
-    if (typeof localStorage.popup == 'undefined')
-        localStorage.popup = 'popup';
+initialize();
+chrome.extension.onMessage.addListener( listener );
+
+/**
+ * Conver local storage
+ * 
+ * @param {object} local storage
+ */
+function conver( object ) {
+    const news = { ...object };
+    Object.keys( news ).forEach( key => {
+        news[key] == "true"  && ( news[key] = true );
+        news[key] == "false" && ( news[key] = false );
+    });
+    return news;
 }
 
-function listener(request, sender, sendResponse) {
-    if (request == 'get_settings') {
-        var blacklist = localStorage.blacklist;
-        blacklist = blacklist.replace(/\n/g, ',');
-        blacklist = blacklist.replace(/,+/g, ',');
-        blacklist = blacklist.replace(/^,|,$/g, '');
-        blacklist = blacklist.split(',');
+/**
+ * Initialize
+ */
+function initialize() {
+    Object.keys( storage ).forEach( key => {
+        localStorage[key] == undefined && ( localStorage[key] = storage[key] );
+    });
+    console.log( localStorage )
+}
 
-        for (var i = blacklist.length; i--;)
-            blacklist[i] = blacklist[i].trim();
-
-        if (blacklist.length == 1 && !blacklist[0])
-            blacklist = [];
-
-        sendResponse({
-            scale     : localStorage.scale,
-            usefont   : localStorage.usefont == 'true',
-            hidePUA   : localStorage.hidePUA == 'true',
-            blacklist : blacklist,
-            popup     : localStorage.popup,
-        });
+/**
+ * Lister chorme message
+ * 
+ * @param {object} request
+ * @param {object} sender
+ * @param {object} sendResponse
+ */
+function listener( request, sender, sendResponse ) {
+    if ( request == "get_settings" ) {
+        sendResponse( conver( localStorage ));
     } else if ( request && request.id == "popup" ) {
         localStorage.popup = request.value;
         localStorage.popup == "popup" ? removeWindow() : createWindow();
@@ -60,8 +76,6 @@ function listener(request, sender, sendResponse) {
 /***********************
  * Emoji pasting
  ***********************/
-
-localStorage.message_id = 0;
 
 // listen to other tabs, last one always overwrites the others
 chrome.extension.onMessage.addListener(function (message) {
