@@ -6,8 +6,8 @@ import zh_emoji   from 'zh_emoji';
 
 // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
 const trigger = {
-    prefix: "(::|[\uff1a]{2})",
-    suffix: "([\u4e00-\u9fa5]|[a-zA-Z ])+ "
+    prefix: "::|[\uff1a]{2}",
+    suffix: "[\u4e00-\u9fa5]|[a-zA-Z ]+ $"
 },
 faces = new Map();
 
@@ -16,19 +16,16 @@ let $input, storage,
     reg     = new RegExp( trigger.prefix + trigger.suffix );
 
 /**
-* keyUpEventHandler: Get settings from response
+* Entry
 */
 chrome.runtime.sendMessage( "get_settings", function ( resp ) {
     console.log( "get_settings", resp )
     status  = "complete";
     storage = { ...resp };
 
-    if ( !storage.advanced && storage.trigger != "" ) {
-        trigger.prefix = `(${storage.trigger})`;
-        reg = new RegExp( trigger.prefix + trigger.suffix );
-    } else if ( storage.advanced && storage.regexp != "" ) {
-        reg = new RegExp( storage.regexp );
-    }
+    storage.trigger_prefix != "" && ( trigger.prefix = storage.trigger_prefix );
+    storage.trigger_suffix != "" && ( trigger.suffix = storage.trigger_suffix );
+    reg = new RegExp( `(${trigger.prefix})` + `(${trigger.suffix})` );
     console.log( "current regexp is ", reg, reg.source )
 
     $( "body" ).bind( "keyup", keyUpEventHandler );

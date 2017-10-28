@@ -11,9 +11,9 @@ const storage = {
     blank   : false,
     clip    : false,
     clicked : false,
-    advanced: false,
-    trigger : "",
-    regexp  : "",
+    // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
+    trigger_prefix: "",
+    trigger_suffix: "",
     blacklist: [
         "twitter.com",
         "google.com"

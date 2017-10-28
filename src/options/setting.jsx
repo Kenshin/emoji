@@ -10,13 +10,12 @@ import TextField  from 'textfield';
 export default class Setting extends React.Component {
 
     state = {
-        error_trigger : "",
-        error_regexp  : ""
+        error_trigger_prefix : "",
+        error_trigger_suffix  : ""
     };
 
     onChange( value, key ) {
         this.props.options[key] = value;
-        key == "advanced" && this.toggle( value );
     }
 
     onChangeBlacklist() {
@@ -50,14 +49,6 @@ export default class Setting extends React.Component {
         }
     }
 
-    toggle( value ) {
-        $( this.refs.regexp ).velocity( value ? "slideDown" : "slideUp" );
-    }
-
-    componentDidMount() {
-        this.toggle( this.props.options.advanced );
-    }
-
     render() {
         return (
             <div>
@@ -75,22 +66,16 @@ export default class Setting extends React.Component {
                     onChange={ (s)=>this.onChange(s, "clicked" ) } />
                 <TextField 
                     multi={ false }
-                    value={ this.props.options.trigger }
-                    errortext={ this.state.error_trigger }
-                    placeholder="插入 Emoji 的触发条件，默认为 中英文冒号，仅支持正则表达式"
-                    onChange={ (evt)=>this.onChangeTrigger(evt.target.value, "trigger" ) } />
-                <Switch width="100%" checked={ this.props.options.advanced }
-                    thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
-                    label="是否开启触发条件高级模式？（开启后，触发条件将会失效）"
-                    onChange={ (s)=>this.onChange(s, "advanced" ) } />
-                <div ref="regexp">
-                    <TextField 
+                    value={ this.props.options.trigger_prefix }
+                    errortext={ this.state.error_trigger_prefix }
+                    placeholder="插入 Emoji 的触发条件，默认为 中英文双冒号，仅支持正则表达式"
+                    onChange={ (evt)=>this.onChangeTrigger(evt.target.value, "trigger_prefix" ) } />
+                <TextField 
                         multi={ false }
-                        value={ this.props.options.regexp }
-                        errortext={ this.state.error_regexp }
-                        placeholder="默认为 中英文冒号 + 中英文关键字 + 空格，例如 ::face 或 ：：笑 ，仅支持正则表达式"
-                        onChange={ (evt)=>this.onChangeTrigger(evt.target.value, "regexp" ) } />
-                </div>
+                        value={ this.props.options.trigger_suffix }
+                        errortext={ this.state.error_trigger_suffix }
+                        placeholder="插入 Emoji 的替换条件，默认为 触发条件 + 中英文关键字 + 空格，例如 ::face 或 ：：笑 ，仅支持正则表达式"
+                        onChange={ (evt)=>this.onChangeTrigger(evt.target.value, "trigger_suffix" ) } />
                 <div className="name">黑名单</div>
                 <TextField 
                     multi={ true } rows="5"
