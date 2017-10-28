@@ -11,7 +11,7 @@ import chardict   from 'chardict';
 const emojisByChar = {},
       allChars     = [],
       items        = chardict.items,
-    baseUrl      =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
+      baseUrl      =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
 
 let faces, faces_wrapper, menu, copy_elem, feedback;
 
