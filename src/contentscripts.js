@@ -137,7 +137,8 @@ function listen() {
  * @param  {emoji} emoji
  */
 function insert( value ) {
-    $input.val( $input.val().replace( reg, ` ${value} ` ));
+    storage.blank == true && ( value = ` ${value} ` );
+    $input.val( $input.val().replace( reg, value ));
 }
 
 /**
