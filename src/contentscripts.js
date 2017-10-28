@@ -3,6 +3,7 @@ console.log( "=== +emoji contentscripts load ===" )
 import categories from 'categories';
 import chardict   from 'chardict';
 import zh_emoji   from 'zh_emoji';
+import minimatch  from 'minimatch';
 
 // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
 const trigger = {
@@ -14,6 +15,23 @@ faces = new Map();
 let $input, storage,
     status  = "pending",
     reg     = new RegExp( trigger.prefix + trigger.suffix );
+
+/**
+ * is black list
+ * 
+ * @returns {boolean} true: is black list false: not is black list
+ */
+function isBlacklist() {
+    const list = storage.blacklist.split( "," ),
+          idx  = list.findIndex( url => {
+            if ( !url.startsWith( "http" ) && url == window.location.host.replace( "www.", "" ) ) {
+                return true;
+            } else if ( url.startsWith( "http" ) && minimatch( window.location.href, url ) ) {
+                return true;
+            }
+    });
+    return idx == -1 ? false : true;
+}
 
 /**
 * Entry
@@ -28,7 +46,7 @@ chrome.runtime.sendMessage( "get_settings", function ( resp ) {
     reg = new RegExp( `(${trigger.prefix})` + `(${trigger.suffix})` );
     console.log( "current regexp is ", reg, reg.source )
 
-    $( "body" ).bind( "keyup", keyUpEventHandler );
+    !isBlacklist() && $( "body" ).bind( "keyup", keyUpEventHandler );
 });
 
 /**

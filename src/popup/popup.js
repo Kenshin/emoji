@@ -3,6 +3,7 @@ console.log( "=== +emoji popup load ===" )
 import 'popup_css';
 import categories from 'categories';
 import chardict   from 'chardict';
+import minimatch  from 'minimatch';
 
 /***********************
  * Init
@@ -123,6 +124,23 @@ function show_recent() {
 
 var message_id;
 
+/**
+ * is black list
+ * 
+ * @returns {boolean} true: is black list false: not is black list
+ */
+function isBlacklist( href ) {
+    const list = localStorage.blacklist.split( "," ),
+          idx  = list.findIndex( url => {
+            if ( !url.startsWith( "http" ) && new RegExp( url ).test( href )) {
+                return true;
+            } else if ( url.startsWith( "http" ) && minimatch( href, url ) ) {
+                return true;
+            }
+    });
+    return idx == -1 ? false : true;
+}
+
 function face_click(e) {
 
     if (e.target.nodeName != 'IMG') return;
@@ -135,26 +153,31 @@ function face_click(e) {
 
     // if there's an input field waiting for a paste
     // let's give the face to him
-    if (+localStorage.message_id)  {
+    if ( +localStorage.message_id )  {
         getSelectedTab( function ( tab ) {
-          chrome.tabs.sendMessage( tab.id, {
-              name: 'face_to_paste',
-              id  : localStorage.message_id,
-              face: emoji
-          });
-          notifcation( "success", "已插入", e.target );
-          localStorage.clip == "true" && copyToClipboard( emoji );
-          localStorage.message_id = 0;
+            if ( !isBlacklist( tab.url ) ) {
+                chrome.tabs.sendMessage( tab.id, {
+                    name: 'face_to_paste',
+                    id  : localStorage.message_id,
+                    face: emoji
+                });
+                notifcation( "success", "已插入", e.target );
+                localStorage.clip == "true" && copyToClipboard( emoji );
+                localStorage.message_id = 0;
+            } else {
+                copyToClipboard( emoji );
+                notifcation( "warning", "已复制", e.target );
+            }
 
-          // allFrames
-          //chrome.tabs.executeScript({
-          //    allFrames: true,
-          //    code: "paste_face({name:'face_to_paste', id:" +  localStorage.message_id + ", face: '" + e.target.dataset.char + "'})"
-          //});
-          //setTimeout(function () {
-          //        window.close();
-          //        chrome.tabs.update(tab.id, { active: true }, function () {})
-          //}, 350);
+            // allFrames
+            //chrome.tabs.executeScript({
+            //    allFrames: true,
+            //    code: "paste_face({name:'face_to_paste', id:" +  localStorage.message_id + ", face: '" + e.target.dataset.char + "'})"
+            //});
+            //setTimeout(function () {
+            //        window.close();
+            //        chrome.tabs.update(tab.id, { active: true }, function () {})
+            //}, 350);
         });
     } else {
         copyToClipboard( emoji );
