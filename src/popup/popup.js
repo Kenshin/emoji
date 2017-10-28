@@ -130,7 +130,8 @@ function face_click(e) {
     add_to_recent(e.target.dataset.face);
     addToMulti( e.target );
 
-    const emoji = ` ${e.target.dataset.char} `;
+    let emoji = e.target.dataset.char;
+    localStorage.blank == "true" && ( emoji = ` ${emoji} ` );
 
     // if there's an input field waiting for a paste
     // let's give the face to him
