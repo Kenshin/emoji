@@ -40,11 +40,12 @@ export default class Setting extends React.Component {
         console.log( this.props.options )
         if ( type == "set_settings" ) {
             chrome.runtime.sendMessage({ id: type, value: { ...this.props.options } });
-            new Notify().Render( "保存成功！" );
+            new Notify().Render( "保存成功，插入功能如需生效，需要刷新页面 😀" );
         } else {
             new Notify().Render( "snackbar", "是否清除当前数据并初始化？", "确认", ()=>{
                 chrome.runtime.sendMessage({ id: type, value: { ...this.props.options } });
-                new Notify().Render( "清除成功！" );
+                new Notify().Render( "清除成功，三秒后当前页面自动刷新 😁" );
+                setTimeout( ()=> location.reload(), 3000 );
             });
         }
     }
