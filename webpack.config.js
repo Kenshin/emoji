@@ -94,6 +94,7 @@ const webpack = require( 'webpack' ),
         emoji_popup : [
           'chardict',
           'categories',
+          'minimatch',
         ],
 
         // with contentscripts
@@ -178,6 +179,7 @@ const webpack = require( 'webpack' ),
           emoji_insert : __dirname + '/src/vender/emoji/emoji_insert.js',
 
           jquery     : __dirname + '/src/vender/jquery-2.1.1.min.js',
+          minimatch  : __dirname + '/node_modules/minimatch/minimatch.js',
           velocity   : __dirname + '/src/vender/velocity.min.js',
           wavess     : __dirname + '/src/vender/waves/waves.js',
           notify     : __dirname + '/src/vender/notify/notify.js',
