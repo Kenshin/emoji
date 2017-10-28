@@ -8,30 +8,25 @@ import chardict   from 'chardict';
  * Init
  ***********************/
 
-var emojisByChar = {},
-    allChars     = [],
-    items        = chardict.items;
+const emojisByChar = {},
+      allChars     = [],
+      items        = chardict.items,
+    baseUrl      =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
 
-var faces, faces_wrapper, menu, copy_elem, feedback,
-    baseUrl =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
+let faces, faces_wrapper, menu, copy_elem, feedback;
 
-for (var i in items) {
-  if (items.hasOwnProperty(i)) {
-    var ch = items[i].image.split('.')[0];
-    emojisByChar[ch] = items[i];
-    allChars.push(ch);
-  }
+for ( let i in items ) {
+    if (items.hasOwnProperty( i )) {
+        const ch         = items[i].image.split('.')[0];
+        emojisByChar[ch] = items[i];
+        allChars.push( ch );
+    }
 }
-
-//if (typeof localStorage.recent == 'undefined')
-//    localStorage.recent = '';
 
 /***********************
  * Enerty point
  ***********************/
 
-// attach init event
-// window.addEventListener('DOMContentLoaded', init, false);
 initialize();
 
 function initialize() {
@@ -271,18 +266,6 @@ update();
 /***********************
  * Bottom controlbar
  ***********************/
-
-/**
-* Get settings from response
-*/
-/*
-chrome.runtime.sendMessage( "get_settings", function ( resp ) {
-    if ( resp && resp.popup ) {
-        $( "#action" ).attr( "class", resp.popup );
-        $( "#action" ).text( resp.popup == "popup" ? "弹出" : "缩入" );
-    }
-});
-*/
 
 /**
 * Add emoji to multi-copy
