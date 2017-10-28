@@ -143,7 +143,9 @@ function face_click(e) {
               face: emoji
           });
           notifcation( "success", "已插入", e.target );
+          localStorage.clip == "true" && copyToClipboard( emoji );
           localStorage.message_id = 0;
+
           // allFrames
           //chrome.tabs.executeScript({
           //    allFrames: true,
