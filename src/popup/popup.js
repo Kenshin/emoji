@@ -23,8 +23,8 @@ for (var i in items) {
   }
 }
 
-if (typeof localStorage.recent == 'undefined')
-    localStorage.recent = '';
+//if (typeof localStorage.recent == 'undefined')
+//    localStorage.recent = '';
 
 /***********************
  * Enerty point
@@ -32,9 +32,9 @@ if (typeof localStorage.recent == 'undefined')
 
 // attach init event
 // window.addEventListener('DOMContentLoaded', init, false);
-init();
+initialize();
 
-function init() {
+function initialize() {
 
     // face list
     faces            = document.getElementById("faces");
@@ -46,7 +46,7 @@ function init() {
 
     // menu init
     menu             = document.getElementById("menu");
-    menu.onmouseover = menu_click;
+    localStorage.clicked == "true" ? menu.onclick = menu_click : menu.onmouseover = menu_click;
 
     // dummy elem used by copy and paste for text manipulation
     copy_elem        = document.createElement('input');
@@ -59,7 +59,10 @@ function init() {
     document.body.appendChild(feedback);
 
     // after install show a category instead of an empty 'recent' list
-    localStorage.recent == '' && menu_click({target: menu.getElementsByTagName('a')[1] });
+    localStorage.recent == "" && menu_click({target: menu.getElementsByTagName('a')[1] });
+
+    $( "#action" ).attr( "class", localStorage.popup );
+    $( "#action" ).text( localStorage.popup == "popup" ? "弹出" : "缩入" );
 }
 
 // broadcast popup events
@@ -272,12 +275,14 @@ update();
 /**
 * Get settings from response
 */
+/*
 chrome.runtime.sendMessage( "get_settings", function ( resp ) {
     if ( resp && resp.popup ) {
         $( "#action" ).attr( "class", resp.popup );
         $( "#action" ).text( resp.popup == "popup" ? "弹出" : "缩入" );
     }
 });
+*/
 
 /**
 * Add emoji to multi-copy
