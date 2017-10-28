@@ -11,6 +11,7 @@ const storage = {
     blank   : false,
     clip    : false,
     clicked : false,
+    recent  : "",
     // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
     trigger_prefix: "",
     trigger_suffix: "",
