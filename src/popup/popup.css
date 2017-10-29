@@ -214,8 +214,8 @@ a:focus {
     border-radius: 5px;
 
     opacity: 0;
-    -webkit-transition: opacity 0.20s ease-in-out;
-    -webkit-user-select: none;
+    transition: opacity 0.20s ease-in-out;
+    user-select: none;
     cursor: pointer;
     z-index: 100;
 }
