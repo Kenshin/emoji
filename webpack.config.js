@@ -50,6 +50,7 @@ const webpack = require( 'webpack' ),
 
             { from   : 'src/options/options.html',       to : '../options/' },
             { from   : 'src/popup/popup.html',           to : '../popup/' },
+            { from   : 'src/popup/popup.css',            to : '../popup/' },
 
             { context: 'src/assets/',     from : "*/*" , to : '../assets/' },
             { context: 'src/_locales/',   from : "*/*" , to : '../_locales/' },
@@ -171,7 +172,6 @@ const webpack = require( 'webpack' ),
           option_css : __dirname + '/src/options/options.css',
 
           popup      : __dirname + '/src/popup/popup.js',
-          popup_css  : __dirname + '/src/popup/popup.css',
 
           chardict   : __dirname + '/src/vender/emoji/chardict.js',
           categories : __dirname + '/src/vender/emoji/categories.js',
