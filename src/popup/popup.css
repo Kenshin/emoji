@@ -132,6 +132,7 @@ a:focus {
 
     height: 25px;
 
+    background-color: inherit;
     box-shadow: -2px 0px 5px rgba(0,0,0,.26);
 }
 
@@ -242,4 +243,20 @@ a:focus {
     height: 1px;
 
     opacity: 0;
+}
+
+/**
+ * Window style
+ */
+
+.window_width {
+    width: 100%!important;
+}
+
+.window_bottom {
+    position: fixed;
+    
+    left: 0;
+    right: 0;
+    bottom: 0;
 }

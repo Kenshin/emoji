@@ -58,6 +58,16 @@ function initialize() {
 
     $( "#action" ).attr( "class", localStorage.popup );
     $( "#action" ).text( localStorage.popup == "popup" ? "弹出" : "缩入" );
+
+    if ( localStorage.popup == "window" ) {
+        $( "body"   ).addClass( "window_width" );
+        $( "#faces" ).addClass( "window_width" );
+        $( "#bottom-contrlbar" ).addClass( "window_bottom" );
+    }
+
+    $(window).resize( function() {
+        localStorage.popup == "window" && $( "body" ).height( $(window).height() - $( "#bottom-contrlbar ").height() * 2 )
+    });
 }
 
 // broadcast popup events
