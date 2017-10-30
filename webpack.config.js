@@ -5,9 +5,6 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
 
       // omit import xxx
       new webpack.ProvidePlugin({
-        React    : 'react',
-        ReactDOM : 'react-dom',
-        Notify   : 'notify',
         jQuery   : 'jquery',
       }),
 
@@ -104,7 +101,7 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
 
     bundle = ( function () {
       const files = [
-        './src/index.jsx'
+        './src/index.js'
       ];
       if ( !isProduction() ) {
         files.push(
@@ -120,33 +117,8 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
       entry: {
 
         vendors : [
-
-          // react
-          './node_modules/react/dist/react.min.js',
-          './node_modules/react-dom/dist/react-dom.min.js',
-
-          // vendors
           'jquery',
-          'pangu',
-          'velocity',
-
-          'wavess',
-          'notify',
-
-          // component
-          'textfield',
-          'button',
-          'selectfield',
-          /*
-          'fab',
-          'switch',
-          'tabs',
-          'sidebar',
-          'list',
-          'dialog',
-          */
-          'tooltip',
-          'waves'
+          'fullpage'
         ],
 
         bundle: bundle(),
@@ -172,11 +144,11 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
       module: {
         loaders: [
           {
-              test: /\.js[x]?$/,
+              test: /\.js?$/,
               exclude: /node_modules/,
               loader: 'babel',
               query: {
-                presets: [ 'es2015', 'stage-0', 'react' ]
+                presets: [ 'es2015' ]
               }
           },
 
@@ -201,38 +173,17 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
       postcss: function () {
         return [
           require( 'import-postcss'  )(),
-          require( 'postcss-cssnext' )()
+          require( 'postcss-cssnext' )(),
+          require( 'autoprefixer'    )({
+            browsers: [ 'last 5 versions', '> 5%' ]
+          })
         ]
       },
 
       resolve: {
         alias : {
-          jquery     : __dirname + '/src/vender/jquery-2.1.1.min.js',
-          pangu      : __dirname + '/src/vender/pangu.min.js',
-          velocity   : __dirname + '/src/vender/velocity.min.js',
-
-          wavess     : __dirname + '/src/vender/waves/waves.js',
-          notify     : __dirname + '/src/vender/notify/notify.js',
-
-          textfield  : __dirname + '/src/vender/mduikit/textfield.jsx',
-          fab        : __dirname + '/src/vender/mduikit/fab.jsx',
-          button     : __dirname + '/src/vender/mduikit/button.jsx',
-          selectfield: __dirname + '/src/vender/mduikit/selectfield.jsx',
-          switch     : __dirname + '/src/vender/mduikit/switch.jsx',
-          tabs       : __dirname + '/src/vender/mduikit/tabs.jsx',
-          sidebar    : __dirname + '/src/vender/mduikit/sidebar.jsx',
-          list       : __dirname + '/src/vender/mduikit/list.jsx',
-          dialog     : __dirname + '/src/vender/mduikit/dialog.jsx',
-          tooltip    : __dirname + '/src/vender/mduikit/tooltip.jsx',
-          waves      : __dirname + '/src/vender/mduikit/waves.js',
-
-          index      : __dirname + '/src/index.jsx',
-          entry      : __dirname + '/src/module/entry.jsx',
-          search     : __dirname + '/src/module/search.jsx',
-          filter     : __dirname + '/src/module/filter.jsx',
-          version    : __dirname + '/src/module/version.js',
-          controlbar : __dirname + '/src/module/controlbar.jsx',
-
+            jquery     : __dirname + '/src/vender/jquery-2.1.1.min.js',
+            fullpage   : __dirname + '/src/vender/fullpage/jquery.fullpage.min.js',
         }
       }
 
