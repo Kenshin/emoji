@@ -8,7 +8,7 @@ import minimatch  from 'minimatch';
 // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
 const trigger = {
     prefix: "::|[\uff1a]{2}",
-    suffix: "[\u4e00-\u9fa5]|[a-zA-Z ]+ $"
+    suffix: "[\u4e00-\u9fa5]|[a-zA-Z ]+ "
 },
 faces = new Map();
 
