@@ -110,6 +110,18 @@ img {
     font-size: 2.5rem;
 }
 
+.special {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 500px;
+}
+
+.special img {
+    width: 407px;
+}
+
 #section0 h1 {
     color: var(--text-color);
     font-size: 3rem;
