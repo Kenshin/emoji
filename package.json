@@ -1,16 +1,16 @@
 {
-  "name": "sov2ex_project_workflow",
+  "name": "+emoji_project_workflow",
   "version": "1.0.0",
-  "description": "sov2ex develop/deploy",
+  "description": "emoji develop/deploy",
   "author": "Kenshin Wang <kenshin@ksria.com>",
   "license": "MIT",
-  "homepage": "https://www.sov2ex.com/",
+  "homepage": "https://ksria.com/simpread",
   "repository": {
     "type": "git",
-    "url": "git://github.com/kenshin/sov2ex.git"
+    "url": "git://github.com/kenshin/emoji.git"
   },
   "bugs": {
-    "url": "https://github.com/bynil/sov2ex/issues",
+    "url": "https://github.com/kenshin/emoji/issues",
     "email": "kenshin@ksria.com"
   },
   "engines": {
