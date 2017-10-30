@@ -162,7 +162,7 @@ function face_click(e) {
 
     // if there's an input field waiting for a paste
     // let's give the face to him
-    if ( +localStorage.message_id )  {
+    if ( +localStorage.message_id && localStorage.popup == "popup" ) {
         getSelectedTab( function ( tab ) {
             if ( !isBlacklist( tab.url ) ) {
                 chrome.tabs.sendMessage( tab.id, {
