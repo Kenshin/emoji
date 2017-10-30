@@ -1,0 +1,35 @@
+:root {
+    --primary-color: rgba(3, 169, 244, 1);
+    --text-color: rgba(0, 0, 0, 1);
+
+    --ellipsis : {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    --shadow : rgba(0, 0, 0, .12) 0px 1px 6px, rgba(0, 0, 0, .12) 0px 1px 4px;
+}
+
+/**
+ * Golbal style
+ */
+
+html {
+    font: 300 16px/1.8 -apple-system, PingFang SC, Microsoft Yahei, Lantinghei SC, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+
+    color: var(--text-color);
+
+    text-rendering: optimizelegibility;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: #fafafa;
+}
