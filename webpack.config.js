@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
-      HtmlWebpackPlugin = require( 'html-webpack-plugin' )
+      HtmlWebpackPlugin = require( 'html-webpack-plugin' ),
+      CopyWebpackPlugin = require( 'copy-webpack-plugin'  ),
       webpack           = require( 'webpack' ),
       plugins           = [
 
@@ -31,6 +32,12 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
           collapseWhitespace: true,
         },
       }),
+
+      // copy files
+      new CopyWebpackPlugin([
+        { context: 'src/assets/images/',  from : '*' , to : './assets/images'  },
+        { context: 'src/assets/favicon/', from : '*' , to : './assets/favicon' },
+      ])
 
     ],
 
@@ -64,14 +71,6 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
             verbose: true,
             dry    : false,
           })
-        );
-
-        // copy files
-        plugins.push(
-          new CopyWebpackPlugin([
-            { context: 'src/assets/images/',  from : '*' , to : './assets/images'  },
-            { context: 'src/assets/favicon/', from : '*' , to : './assets/favicon' },
-          ])
         );
 
         // call uglifyjs plugin
