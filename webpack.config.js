@@ -1,23 +1,38 @@
+const ExtractTextPlugin = require( 'extract-text-webpack-plugin' ),
+      HtmlWebpackPlugin = require( 'html-webpack-plugin' )
+      webpack           = require( 'webpack' ),
+      plugins           = [
 
-const webpack = require( 'webpack' ),
-    plugins = [
-
-      // public reqire( xxx )
+      // omit import xxx
       new webpack.ProvidePlugin({
         React    : 'react',
         ReactDOM : 'react-dom',
         Notify   : 'notify',
+        jQuery   : 'jquery',
       }),
 
       // chunk files
       new webpack.optimize.CommonsChunkPlugin({
-        names     : [ 'emoji_popup', 'emoji_contentscripts', 'common' ],
+        names     : [ 'vendors' ],
         minChunks : Infinity
       }),
 
       // defined environment variable
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify( 'production' ) // or development
+      }),
+
+      // extract css files
+      new ExtractTextPlugin( '[name].css' ),
+
+      // minify html files
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: 'src/index.html',
+        inject: false,
+        minify: {
+          collapseWhitespace: true,
+        },
       }),
 
     ],
@@ -27,10 +42,21 @@ const webpack = require( 'webpack' ),
       return process.env.NODE_ENV === 'production';
     },
 
+    // only when environment variable is 'development' call
+    develop = ( function () {
+      const OpenBrowserPlugin  = require('open-browser-webpack-plugin');
+      if ( !isProduction() ) {
+        plugins.push(
+          new webpack.HotModuleReplacementPlugin(),
+          new OpenBrowserPlugin({ url: 'http://localhost:8080' })
+        );
+      }
+    })(),
+
     // only when environment variable is 'production' call
     deploy = ( function () {
-      var CopyWebpackPlugin  = require( 'copy-webpack-plugin'  ),
-          CleanWebpackPlugin = require( 'clean-webpack-plugin' );
+      const CopyWebpackPlugin  = require( 'copy-webpack-plugin'  ),
+            CleanWebpackPlugin = require( 'clean-webpack-plugin' );
 
       // environment verify
       if ( isProduction() ) {
@@ -46,14 +72,8 @@ const webpack = require( 'webpack' ),
         // copy files
         plugins.push(
           new CopyWebpackPlugin([
-            { from   : "src/manifest.json" ,             to : '../' },
-
-            { from   : 'src/options/options.html',       to : '../options/' },
-            { from   : 'src/popup/popup.html',           to : '../popup/' },
-            { from   : 'src/popup/popup.css',            to : '../popup/' },
-
-            { context: 'src/assets/',     from : "*/*" , to : '../assets/' },
-            { context: 'src/_locales/',   from : "*/*" , to : '../_locales/' },
+            { context: 'src/assets/images/',  from : '*' , to : './assets/images'  },
+            { context: 'src/assets/favicon/', from : '*' , to : './assets/favicon' },
           ])
         );
 
@@ -74,8 +94,7 @@ const webpack = require( 'webpack' ),
               except: [ '$', 'exports', 'require' ]
             },
             output: {
-              comments: false,
-              ascii_only: true
+              comments: false
             }
           })
         );
@@ -83,28 +102,23 @@ const webpack = require( 'webpack' ),
       }
     })(),
 
+    bundle = ( function () {
+      const files = [
+        './src/index.jsx'
+      ];
+      if ( !isProduction() ) {
+        files.push(
+          'webpack/hot/dev-server',
+          'webpack-dev-server/client?http://localhost:8080'
+        );
+      }
+      return files;
+    }),
+
     // webpack config
     config = {
       entry: {
 
-        common : [
-          'jquery',
-        ],
-
-        // with popup
-        emoji_popup : [
-          'chardict',
-          'categories',
-          'minimatch',
-        ],
-
-        // with contentscripts
-        emoji_contentscripts : [
-          'zh_emoji',
-          'emoji_insert',
-        ],
-
-        // with options
         vendors : [
 
           // react
@@ -112,79 +126,93 @@ const webpack = require( 'webpack' ),
           './node_modules/react-dom/dist/react-dom.min.js',
 
           // vendors
+          'jquery',
+          'pangu',
           'velocity',
+
+          'wavess',
           'notify',
 
-          // mduikit
-          'tooltip',
-          'waves',
+          // component
           'textfield',
           'button',
           'selectfield',
+          /*
+          'fab',
+          'switch',
+          'tabs',
+          'sidebar',
+          'list',
+          'dialog',
+          */
+          'tooltip',
+          'waves'
         ],
 
-        contentscripts : './src/contentscripts.js',
-        background     : './src/background.js',
-        options        : './src/options/options.js',
-        popup          : './src/popup/popup.js',
+        bundle: bundle(),
+
       },
 
       output: {
-        path     :  isProduction() ? './publish/bundle' : './src/bundle',
+        path     :  isProduction() ? './publish/' : './',
         filename : '[name].js'
+      },
+
+      devServer: {
+        contentBase: './src',
+        port: 8080,
+        historyApiFallback: true,
+        hot: true,
+        inline: true,
+        progress: true,
       },
 
       plugins: plugins,
 
       module: {
-        loaders: [{
-            test: /\.js[x]?$/,
-            exclude: /node_modules/,
-            loader: 'babel',
-            query: {
-              presets: [ 'es2015', 'stage-0', 'react' ]
-            }
-        },
-        { test: /\.css$/,           loader: 'style!css!postcss' },
-        { test: /\.(png|jpg|gif)$/, loader: 'url?limit=12288'   },
-        {
-          test  : require.resolve( './src/vender/jquery-2.1.1.min.js' ),
-          loader: 'expose?jQuery!expose?$'
-        },
+        loaders: [
+          {
+              test: /\.js[x]?$/,
+              exclude: /node_modules/,
+              loader: 'babel',
+              query: {
+                presets: [ 'es2015', 'stage-0', 'react' ]
+              }
+          },
+
+          // css in js
+          //{ test: /\.css$/,         loader: 'style!css!postcss' },
+
+          // extract css files
+          { test: /\.css$/,           loader: ExtractTextPlugin.extract( 'style', 'css!postcss' ) },
+
+          // image in js
+          { test: /\.(png|jpg|gif)$/, loader: 'url?limit=12288'   },
+
+          // expose $
+          {
+            test  : require.resolve( './src/vender/jquery-2.1.1.min.js' ),
+            loader: 'expose?jQuery!expose?$'
+          },
+
         ]
       },
 
       postcss: function () {
         return [
           require( 'import-postcss'  )(),
-          require( 'postcss-cssnext' )(),
-          require( 'autoprefixer'    )({
-            browsers: [ 'last 5 versions', '> 5%' ]
-          })
+          require( 'postcss-cssnext' )()
         ]
       },
 
       resolve: {
         alias : {
-
-          option     : __dirname + '/src/options/options.js',
-          setting    : __dirname + '/src/options/setting.jsx',
-          option_css : __dirname + '/src/options/options.css',
-
-          popup      : __dirname + '/src/popup/popup.js',
-
-          chardict   : __dirname + '/src/vender/emoji/chardict.js',
-          categories : __dirname + '/src/vender/emoji/categories.js',
-          zh_emoji   : __dirname + '/src/vender/emoji/zh_emoji.js',
-          emoji_insert : __dirname + '/src/vender/emoji/emoji_insert.js',
-
           jquery     : __dirname + '/src/vender/jquery-2.1.1.min.js',
-          minimatch  : __dirname + '/node_modules/minimatch/minimatch.js',
+          pangu      : __dirname + '/src/vender/pangu.min.js',
           velocity   : __dirname + '/src/vender/velocity.min.js',
+
           wavess     : __dirname + '/src/vender/waves/waves.js',
           notify     : __dirname + '/src/vender/notify/notify.js',
-          tooltip    : __dirname + '/src/vender/mduikit/tooltip.jsx',
-          waves      : __dirname + '/src/vender/mduikit/waves.js',
 
           textfield  : __dirname + '/src/vender/mduikit/textfield.jsx',
           fab        : __dirname + '/src/vender/mduikit/fab.jsx',
@@ -192,10 +220,18 @@ const webpack = require( 'webpack' ),
           selectfield: __dirname + '/src/vender/mduikit/selectfield.jsx',
           switch     : __dirname + '/src/vender/mduikit/switch.jsx',
           tabs       : __dirname + '/src/vender/mduikit/tabs.jsx',
-          progress   : __dirname + '/src/vender/mduikit/progress.jsx',
           sidebar    : __dirname + '/src/vender/mduikit/sidebar.jsx',
           list       : __dirname + '/src/vender/mduikit/list.jsx',
           dialog     : __dirname + '/src/vender/mduikit/dialog.jsx',
+          tooltip    : __dirname + '/src/vender/mduikit/tooltip.jsx',
+          waves      : __dirname + '/src/vender/mduikit/waves.js',
+
+          index      : __dirname + '/src/index.jsx',
+          entry      : __dirname + '/src/module/entry.jsx',
+          search     : __dirname + '/src/module/search.jsx',
+          filter     : __dirname + '/src/module/filter.jsx',
+          version    : __dirname + '/src/module/version.js',
+          controlbar : __dirname + '/src/module/controlbar.jsx',
 
         }
       }

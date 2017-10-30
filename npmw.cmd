@@ -1,6 +1,6 @@
 ::===========================================================
-:: +Emoji   : +Emoji development/publish environment
-:: HOST     : https://github.com/kenshin/emoji
+:: sov2ex   : sov2ex development/publish environment
+:: HOST     : https://github.com/kenshin/sov2ex
 :: Author   : Kenshin<kenshin@ksria.com>
 :: Version  : 0.0.1
 ::===========================================================
@@ -28,9 +28,9 @@ if "%1" == "run" (
 :: develop : Development environment
 ::===========================================================
 :develop
-@echo webpack --devtool=source-map --progress --colors --watch
+@echo webpack-dev-server --hot --progress --colors --devtool=source-map
 set NODE_ENV=development
-webpack --devtool=source-map --progress --colors --watch
+webpack-dev-server --hot --progress --colors --devtool=source-map
 goto quit
 
 ::===========================================================
@@ -39,7 +39,7 @@ goto quit
 :publish
 @echo webpack -p --progress --colors
 set NODE_ENV=production
-webpack --progress --colors
+webpack -p --progress --colors
 goto quit
 
 ::===========================================================
