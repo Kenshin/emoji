@@ -33,3 +33,28 @@ body {
 
     background-color: #fafafa;
 }
+
+.logo {
+    display: block;
+
+    width: 128px;
+    height: 128px;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-image: url( '/assets/icons/logo.png' );
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+#section0 h1 {
+    color: #fff;
+}

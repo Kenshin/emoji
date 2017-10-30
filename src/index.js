@@ -6,5 +6,7 @@ import './assets/css/style.css';
 import fullpage from 'fullpage';
 
 $( document ).ready( function() {
-    $('#fullpage').fullpage();
+    $('#fullpage').fullpage({
+        sectionsColor: [ '#FFE082', '#94AC3C', '#7BAABE', 'whitesmoke', '#ccddff' ]
+    });
 });
