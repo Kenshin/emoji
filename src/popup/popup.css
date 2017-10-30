@@ -112,12 +112,15 @@ a:focus {
     transition: border-color .5s;
 }
 
-#menu a:hover {
+#menu a:hover,
+.active {
     padding-bottom: 5px;
-    color: #2196f3;
+
+    color: #2196f3!important;
     font-weight: 500;
 
     transition: border-color .5s;
+    border-color: inherit!important;
     border-bottom: 2px solid #2196f3;
 }
 
