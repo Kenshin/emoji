@@ -154,6 +154,7 @@ function face_click(e) {
 
     if (e.target.nodeName != 'IMG') return;
 
+    chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "click" }});
     add_to_recent(e.target.dataset.face);
     addToMulti( e.target );
 

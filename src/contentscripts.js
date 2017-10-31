@@ -157,6 +157,7 @@ function listen() {
 function insert( value ) {
     storage.blank == true && ( value = ` ${value} ` );
     $input.val( $input.val().replace( reg, value ));
+    chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "insert" }});
 }
 
 /**

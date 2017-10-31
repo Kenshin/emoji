@@ -26,6 +26,9 @@ function settingRender( options ) {
     ReactDOM.render( <Setting options={ options } />, $( ".setting" )[0] );
 }
 
+// Google Analytics
+chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "option", eventAction : "open" }});
+
 // Start of Async Drift Code
 !function() {
   var t;
