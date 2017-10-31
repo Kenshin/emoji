@@ -93,6 +93,11 @@ img {
     width: 407px;
 }
 
+.special .gif {
+    border-radius: 7px;
+    box-shadow: 1px 1px 3px color( var(--primary-color) alpha(-50%));
+}
+
 #section0 h1 {
     color: var(--text-color);
     font-size: 3rem;
