@@ -106,12 +106,18 @@ img {
 }
 
 #section0 .download {
+    display: flex;
+    justify-content: center;
+}
+
+#section0 .online {
+    margin: 0 10px;
     padding: 0 16px;
 
     width: 200px;
     height: 48px;
 
-    background-color: #FFA726;
+    background-color: #8cd842;
 
     text-align: center;
     font-size: 2.4rem;
@@ -123,9 +129,17 @@ img {
     transition: all .45s cubic-bezier(.23,1,.32,1) 0ms;
 }
 
-#section0 .download:hover {
-    background-color: #FFA000;
+#section0 .online:hover {
+    background-color: #00E676;
     box-shadow: 0 1px 6px rgba(0,0,0,.117647), 0 1px 4px rgba(0,0,0,.117647);
+}
+
+#section0 .offline {
+    background-color: #40C4FF;
+}
+
+#section0 .offline:hover {
+    background-color: #00b1fb;
 }
 
 .footer {
