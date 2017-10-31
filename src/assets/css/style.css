@@ -72,35 +72,6 @@ img {
     background-image: url( '/assets/icons/division.png' );
 }
 
-.arrow {
-    position: absolute;
-
-    left: 50%;
-    right: 50%;
-    bottom: 10px;
-
-    padding: 15px;
-
-    display: block;
-
-    width: 24px;
-    height: 24px;
-
-    background-color: color( var(--primary-color) alpha(-65%) );
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-image: url( '/assets/icons/arrow_down.png' );
-
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 100;
-    transition: all .5s ease-out;
-}
-
-.arrow:hover {
-    background-color: color( var(--primary-color) alpha(-20%) );
-}
-
 .row {
     flex-direction: row;
 }
