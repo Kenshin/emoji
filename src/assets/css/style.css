@@ -198,3 +198,37 @@ img {
 .footer .contact a:hover {
     border-bottom: 2px solid var(--primary-color);
 }
+
+@media (min-width: 768px ) and ( max-width: 1023px ) {
+    body {
+        zoom: 0.8;
+    }
+}
+
+@media (min-width: 320px ) and ( max-width: 767px ) {
+    body {
+        zoom: 0.5;
+    }
+
+    #section0 h1 {
+        text-align: center;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .desc {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .special {
+        min-height: 444px;
+    }
+
+    .footer .contact {
+        flex-wrap: wrap;
+        padding: 50px;
+    }
+}
