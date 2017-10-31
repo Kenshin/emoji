@@ -33,6 +33,7 @@ a {
 
 img {
     width: 500px;
+    min-width: 500px;
 }
 
 .logo {
@@ -91,6 +92,7 @@ img {
 
 .special img {
     width: 407px;
+    min-width: 407px;
 }
 
 .special .gif {
@@ -132,7 +134,7 @@ img {
 
     height: 120px;
     color: var(--primary-color);
-    background-color: var(--text-color)l
+    background-color: var(--text-color);
 }
 
 .footer ul {
@@ -145,7 +147,7 @@ img {
 }
 
 .footer .copywrite {
-    margin: 10px 0;
+    margin: 10px 0 20px 0;
 }
 
 .footer .copywrite a {
