@@ -15,3 +15,13 @@ $( document ).ready( function() {
         navigationTooltips: [ "下载", "快捷键", "独立窗口", "中文语义化", "定制化", "联系" ],
     });
 });
+
+/**
+ * Goggle Analytics
+ */
+(function analytics() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-405976-10');
+})();
