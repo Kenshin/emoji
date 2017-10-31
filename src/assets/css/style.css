@@ -127,6 +127,58 @@ img {
 }
 
 .footer {
+    display: flex;
+    flex-direction: columna;
+
     height: 120px;
     color: var(--primary-color);
+    background-color: var(--text-color)l
+}
+
+.footer ul {
+    margin: 0;
+    padding: 0;
+}
+
+.footer li {
+    list-style: none;
+}
+
+.footer .copywrite {
+    margin: 10px 0;
+}
+
+.footer .copywrite a {
+    color: #658525;
+    font-weight: 400;
+
+    border-bottom: 2px solid transparent;
+    transition: border-color .5s;
+}
+
+.footer .copywrite a:hover {
+    color: #658525;
+    border-bottom: 2px solid #658525;
+}
+
+.footer .contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 30px;
+
+    font-size: 1.5rem;
+}
+
+.footer .contact a {
+    margin: 0 50px;
+    color: var(--primary-color);
+
+    border-bottom: 2px solid transparent;
+    transition: border-color .5s;
+}
+
+.footer .contact a:hover {
+    border-bottom: 2px solid var(--primary-color);
 }
