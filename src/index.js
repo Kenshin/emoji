@@ -7,6 +7,6 @@ import fullpage from 'fullpage';
 
 $( document ).ready( function() {
     $( "#fullpage" ).fullpage({
-        sectionsColor: [ "#FFCA28", "#80DEEA", "#ff7281", "#c5e763", "#ccddff" ]
+        sectionsColor: [ "#FFCA28", "#80DEEA", "#ff7281", "#64B5F6", "#c5e763" ]
     });
 });
