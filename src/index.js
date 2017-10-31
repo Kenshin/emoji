@@ -7,6 +7,9 @@ import fullpage from 'fullpage';
 
 $( document ).ready( function() {
     $( "#fullpage" ).fullpage({
-        sectionsColor: [ "#FFCA28", "#80DEEA", "#ff7281", "#64B5F6", "#c5e763" ]
+        sectionsColor     : [ "#FFCA28", "#80DEEA", "#ff7281", "#64B5F6", "#c5e763" ],
+        anchors           : [ "welcome", "popup", "window", "insert", "option" ],
+        navigation        : true,
+        navigationPosition: "right",
     });
 });
