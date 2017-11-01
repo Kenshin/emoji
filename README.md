@@ -48,8 +48,6 @@ _均不会出现乱码情况_
 
 - 可作为独立窗口存在；
 
-- 基于 Google Android 7.0 并使用了最基本的 Emoji 集合；
-
 - 个性化定制，包括：可定义触发条件、插入规则，黑名单（支持 [minimatch](https://github.com/isaacs/minimatch) 模糊匹配）等；
 
 ### 附一段使用视频：
