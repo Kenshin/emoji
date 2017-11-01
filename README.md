@@ -84,6 +84,10 @@ _均不会出现乱码情况_
 - [Sketch](https://www.sketchapp.com/) · [Pixelmator](http://www.pixelma
 - 咖啡 · 网易音乐 · Google Chrome · rMBP
 
+#### 请杯咖啡：
+如果你找不到适合的 Emoji 扩展，并觉得 +Emoji 还不错的话，请我喝杯咖啡也是件惬意的事情 😁 😘 👍
+![支付](http://ksria.qiniudn.com/zhifu_m.png)
+
 ### 许可：
 [![license-badge]][license-link]
 
