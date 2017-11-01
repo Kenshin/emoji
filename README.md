@@ -70,7 +70,7 @@ _均不会出现乱码情况_
 
 - https://github.com/dofy/apple-emoji-dict
 
-> **`+Emoji` 使用了部分 [Emoji-Extension-for-Chrome](https://github.com/Janson-Leung/Emoji-Extension-for-Chrome) 代码；中文语义字典由 [apple-emoji-dict](https://github.com/dofy/apple-emoji-dict) 提供来源。**
+> **`+Emoji` 使用了 [Emoji-Extension-for-Chrome](https://github.com/Janson-Leung/Emoji-Extension-for-Chrome) 部分代码；中文语义字典由 [apple-emoji-dict](https://github.com/dofy/apple-emoji-dict) 提供来源。**
 
 ### 简悦的诞生离不开它们：
 - Emoji 来源于 [Google Android 7.0](https://github.com/googlei18n/noto-emoji)
