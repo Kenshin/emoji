@@ -107,6 +107,10 @@ img {
     box-shadow: 1px 1px 3px color( var(--primary-color) alpha(-50%));
 }
 
+#section0 {
+    background-color: #FFCA28;
+}
+
 #section0 h1 {
     color: var(--text-color);
     font-size: 3rem;
@@ -228,7 +232,8 @@ img {
     }
 
     .desc {
-        padding: 20px;
+        padding: 20px 20px 75px 20px;
+        word-break: keep-all;
         text-align: center;
     }
 
@@ -238,6 +243,6 @@ img {
 
     .footer .contact {
         flex-wrap: wrap;
-        padding: 50px;
+        padding: 70px;
     }
 }
