@@ -1,11 +1,56 @@
 console.log( "=== +emoji contentscripts load ===" )
 
-let $input;
-const reg    = /(::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
-      faces  = new Map();
+import categories from 'categories';
+import chardict   from 'chardict';
+import zh_emoji   from 'zh_emoji';
+import minimatch  from 'minimatch';
+
+// (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
+const trigger = {
+    prefix: "::|[\uff1a]{2}",
+    suffix: "[\u4e00-\u9fa5]|[a-zA-Z ]+ "
+},
+faces = new Map();
+
+let $input, storage,
+    status  = "pending",
+    reg     = new RegExp( trigger.prefix + trigger.suffix );
 
 /**
- * Enerty point: listen keyup / keydown event
+ * is black list
+ * 
+ * @returns {boolean} true: is black list false: not is black list
+ */
+function isBlacklist() {
+    const list = storage.blacklist.split( "," ),
+          idx  = list.findIndex( url => {
+            if ( !url.startsWith( "http" ) && url == window.location.host.replace( "www.", "" ) ) {
+                return true;
+            } else if ( url.startsWith( "http" ) && minimatch( window.location.href, url ) ) {
+                return true;
+            }
+    });
+    return idx == -1 ? false : true;
+}
+
+/**
+* Entry
+*/
+chrome.runtime.sendMessage( "get_settings", function ( resp ) {
+    console.log( "get_settings", resp )
+    status  = "complete";
+    storage = { ...resp };
+
+    storage.trigger_prefix != "" && ( trigger.prefix = storage.trigger_prefix );
+    storage.trigger_suffix != "" && ( trigger.suffix = storage.trigger_suffix );
+    reg = new RegExp( `(${trigger.prefix})` + `(${trigger.suffix})` );
+    console.log( "current regexp is ", reg, reg.source )
+
+    !isBlacklist() && $( "body" ).bind( "keyup", keyUpEventHandler );
+});
+
+/**
+ * Listen keyup / keydown event
  *
  * watch key:
  * - All key     : when include reg insert dropdown
@@ -13,7 +58,7 @@ const reg    = /(::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $/,
  * - Tab( 9  )   : click tab highlight face
  * - Enter( 13 ) : enter click highlight face
  */
-$( "body" ).bind( "keyup", function( event ) {
+function keyUpEventHandler( event ) {
     if ( event.keyCode == 27 ) {
         $( "body" ).find( "#simpemoji" ).length > 0 && remove();
     } else if ( event.keyCode == 9 ) {
@@ -29,7 +74,7 @@ $( "body" ).bind( "keyup", function( event ) {
             $input.one( "blur", event => event.target.focus() );
         }
     }
-});
+}
 
 /**
  * Add face
@@ -37,7 +82,8 @@ $( "body" ).bind( "keyup", function( event ) {
  * @param  {string} [::<same keyword> ]
  */
 function face( filter ) {
-    filter        = filter.replace( /(::|[\uff1a]{2})| /ig, "" );
+    const reg     = new RegExp( `(${trigger.prefix})| `, "ig" );
+    filter        = filter.replace( reg, "" );
     let   html    = "";
     const baseUrl = chrome.extension.getURL( "assets/faces/" ),
           render  = ( item, type ) => {
@@ -109,7 +155,9 @@ function listen() {
  * @param  {emoji} emoji
  */
 function insert( value ) {
-    $input.val( $input.val().replace( reg, ` ${value} ` ));
+    storage.blank == true && ( value = ` ${value} ` );
+    $input.val( $input.val().replace( reg, value ));
+    chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "insert" }});
 }
 
 /**

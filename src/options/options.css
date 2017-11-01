@@ -1,74 +1,196 @@
-* { margin: 0; padding: 0 }
+/**
+ * Golbal style
+ */
+
+ :root {
+    --text-color: color(#000 alpha(-13%));
+    --primary-color: #94AC3C;
+    --secondary-color: color(#000 alpha(-46%));
+    --background-color: #eeeeee;
+    --link-color: #295BA7;
+    --width: 740px;
+
+    --title: {
+        margin-top: 1.2em;
+        margin-bottom: 0.6em;
+        line-height: 1.35;
+    }
+}
+
+ * {
+    box-sizing: border-box;
+}
+
+html {
+    font: 300 16px/1.8 -apple-system, PingFang SC, Microsoft Yahei, Lantinghei SC, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+    font-size: 62.5%;
+
+    text-rendering: optimizelegibility;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
 
 body {
-	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
-	font-size: 12px;
-	line-height: 18px;
-	color: #333;
-	max-width: 500px;
-	margin: 0 auto 0;
-	zoom: 1.25;
+    font-family: inherit;
+
+    margin: 0;
+    padding: 0;
+
+    color: var(--text-color);
+    background: var(--background-color);
+
+    font-weight: 200;
 }
 
 a {
-	color: rgb(0, 136, 204);
+    color: var(--link-color);
+    text-decoration: none;
 }
 
-fieldset {
-	border-width:2px 0 0 0;
-	border-radius: 0.5em;
-	border-color: #999;
-	border:0;
-	padding: 5px;
+.header {
+    display: flex;
+    align-items: center;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100px;
+
+    background-color: var(--primary-color);
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+
+    opacity: 1;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+    z-index: 1000;
 }
 
-h1 {
-	font-size:24px;
-	margin: 15px 0 25px;
-	color: #222;
+.header .title {
+    max-width: var(--width);
+    width: var(--width);
+    height: 48px;
+
+    margin: 0 auto;
+
+    color: var(--background-color);
+
+    text-align: left;
+    font-size: 3rem;
+    font-weight: 700;
+
+    line-height: 48px;
 }
 
-h1 span {
-	color: #F50000;
+.main {
+    position: relative;
+
+    top: 100px;
+
+    margin: 0 auto;
+    margin-bottom: 24px;
+    padding: 0;
+
+    max-width: var(--width);
+    width: var(--width);
+
+    text-align: center;
 }
 
-#logo {
-	float: left;
-	vertical-align: middle;
-	position: relative;
-	bottom: 4px;
-	margin-right: 9px;
+.name {
+    height: 56px;
+    line-height: 56px;
+
+    color: #616161;
+
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
-label {
-	font-weight: bold;
+.group {
+    padding: 10px;
+
+    width: 100%;
+
+    background-color: #fff;
+    border-radius: 2px;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-div#buttons {
-	text-align: right;
-	margin-top:5px;
+.setting text-field-state {
+    border-top: none var(--primary-color)!important;
+    border-left: none var(--primary-color)!important;
+    border-right: none var(--primary-color)!important;
+    border-bottom: 2px solid var(--primary-color)!important;
 }
 
-button {
-	width: 73px;
-	height: 21px;
-	margin: 4px;
+.about .title {
+    @apply --title;
+    font-size: 3.2rem;
 }
 
-.fielddescription {
-	display: inline-block;
+.about .desc {
+    @apply --title;
+    font-size: 2rem;
 }
 
-.donateForm {
-	text-align: center;
-	padding: 1em;
+.about .social {
+    @apply --title;
+
+    display: flex;
+    justify-content: center;
 }
 
-#fieldblacklist {
-	width: 100%;
-	height:100px;
-	display: block;
-	box-sizing: border-box;
-	margin-top:5px;
-	padding: 5px;
+.about .social a {
+    margin: 0 10px;
+
+    opacity: .7;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+.about .social a:hover {
+    opacity: 1;
+}
+
+.about .social .icon {
+    display: block;
+    width: 22px;
+    height: 22px;
+}
+
+.about .content {
+    font-size: 1.5rem;
+    text-align: left;
+    padding-left: 80px;
+}
+
+.about .content ul {
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+}
+
+.about .content li {
+    list-style: none;
+    text-align: left;
+}
+
+.bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 80px auto 0;
+    padding: 200px 0 50px 0;
+
+    max-width: var(--width);
+    width: var(--width);
+
+    color: var(--secondary-color);
+    font-size: 1.3rem;
 }

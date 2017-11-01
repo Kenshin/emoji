@@ -2,7 +2,6 @@
     "name"           : "__MSG_extName__",
     "short_name"     : "+Emoji",
     "version"        : "1.0.0",
-    "version_name"   : "内部测试版 1.0.0",
     "description"    : "__MSG_desc__",
     "default_locale" : "en",
     "homepage_url"   : "http://ksria.com/emoji",
@@ -13,23 +12,19 @@
         "128"        : "assets/icons/icon128.png"
     },
     "background"     : {
-        "scripts"    : [ "background.js" ]
+        "scripts"    : [ "/bundle/common.js", "/bundle/background.js" ]
     },
     "content_scripts": [{
         "css": [
             "assets/css/style.css"
         ],
         "js": [
-            "vender/jquery-2.1.1.min.js",
-            "vender/emoji/zh_emoji.js",
-            "vender/emoji/categories.js",
-            "vender/emoji/chardict.js",
-            "vender/emoji/emoji_insert.js",
-            "contentscripts.js"
+            "/bundle/common.js",
+            "/bundle/emoji_popup.js",
+            "/bundle/emoji_contentscripts.js",
+            "/bundle/contentscripts.js"
         ],
-        "matches": [
-            "<all_urls>"
-        ],
+        "matches":[ "http://*/*", "https://*/*" ],
         "run_at": "document_end",
         "all_frames" : true
     }],
@@ -40,6 +35,7 @@
         },
         "default_title": "+Emoji"
     },
+    "options_page"    : "options/options.html",
     "commands": {
         "_execute_browser_action": {
             "suggested_key": {
@@ -54,6 +50,7 @@
         }
     },
     "permissions"             : [ "http://*/", "https://*/", "clipboardWrite", "storage", "tabs" ],
+    "content_security_policy" : "script-src 'self' https://js.driftt.com https://www.google-analytics.com; object-src 'self'",
     "web_accessible_resources": [ "assets/faces/*.png" ],
     "manifest_version": 2
 }

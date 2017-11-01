@@ -57,7 +57,7 @@ a:focus {
     height: 25px;
 
     cursor: pointer;
-    -webkit-transition: all .15s;
+    transition: all .15s;
 }
 
 #faces img:hover {
@@ -78,9 +78,12 @@ a:focus {
     top:0;
     left:0;
 
-    padding: 6px 0;
+    padding: 6px 0 0;
 
     width: 100%;
+    height: 30px;
+
+    background-color: inherit;
 
     font-size: 14px;
     text-align: center;
@@ -109,12 +112,15 @@ a:focus {
     transition: border-color .5s;
 }
 
-#menu a:hover {
+#menu a:hover,
+.active {
     padding-bottom: 5px;
-    color: #2196f3;
+
+    color: #2196f3!important;
     font-weight: 500;
 
     transition: border-color .5s;
+    border-color: inherit!important;
     border-bottom: 2px solid #2196f3;
 }
 
@@ -129,6 +135,7 @@ a:focus {
 
     height: 25px;
 
+    background-color: inherit;
     box-shadow: -2px 0px 5px rgba(0,0,0,.26);
 }
 
@@ -211,8 +218,8 @@ a:focus {
     border-radius: 5px;
 
     opacity: 0;
-    -webkit-transition: opacity 0.20s ease-in-out;
-    -webkit-user-select: none;
+    transition: opacity 0.20s ease-in-out;
+    user-select: none;
     cursor: pointer;
     z-index: 100;
 }
@@ -239,4 +246,20 @@ a:focus {
     height: 1px;
 
     opacity: 0;
+}
+
+/**
+ * Window style
+ */
+
+.window_width {
+    width: 100%!important;
+}
+
+.window_bottom {
+    position: fixed;
+    
+    left: 0;
+    right: 0;
+    bottom: 0;
 }

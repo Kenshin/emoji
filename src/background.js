@@ -4,64 +4,96 @@ console.log( "=== +emoji background load ===" )
  * Init
  ***********************/
 
-setDefaultSettings();
-chrome.extension.onMessage.addListener(listener);
+const storage = {
+    version : "1.0.0",
+    message_id: 0,
+    popup   : "popup",
+    blank   : false,
+    clip    : false,
+    clicked : false,
+    recent  : "",
+    // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
+    trigger_prefix: "",
+    trigger_suffix: "",
+    blacklist: [
+        "twitter.com",
+        "google.com"
+    ]
+};
 
-function setDefaultSettings() {
-    if (typeof localStorage.scale == 'undefined')
-        localStorage.scale = 1.0;
-    if (typeof localStorage.hidePUA == 'undefined')
-        localStorage.hidePUA = 'true';
-    if (typeof localStorage.usefont == 'undefined')
-        localStorage.usefont = 'false';
-    if (typeof localStorage.blacklist == 'undefined')
-        localStorage.blacklist = 'example.com, another-example.com';
-    if (typeof localStorage.popup == 'undefined')
-        localStorage.popup = 'popup';
+/**
+ * Google Analytics 
+ */
+analytics();
+function analytics() {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');        
+    ga('create', 'UA-405976-10', 'auto');
+    ga('send', 'pageview');
 }
 
-function listener(request, sender, sendResponse) {
-    if (request == 'get_settings') {
-        var blacklist = localStorage.blacklist;
-        blacklist = blacklist.replace(/\n/g, ',');
-        blacklist = blacklist.replace(/,+/g, ',');
-        blacklist = blacklist.replace(/^,|,$/g, '');
-        blacklist = blacklist.split(',');
+initialize();
+chrome.extension.onMessage.addListener( listener );
 
-        for (var i = blacklist.length; i--;)
-            blacklist[i] = blacklist[i].trim();
+/**
+ * Conver local storage
+ * 
+ * @param {object} local storage
+ */
+function conver( object ) {
+    const news = { ...object };
+    Object.keys( news ).forEach( key => {
+        news[key] == "true"  && ( news[key] = true );
+        news[key] == "false" && ( news[key] = false );
+    });
+    return news;
+}
 
-        if (blacklist.length == 1 && !blacklist[0])
-            blacklist = [];
+/**
+ * Initialize
+ */
+function initialize() {
+    Object.keys( storage ).forEach( key => {
+        localStorage[key] == undefined && ( localStorage[key] = storage[key] );
+    });
+    console.log( localStorage )
+}
 
-        sendResponse({
-            scale     : localStorage.scale,
-            usefont   : localStorage.usefont == 'true',
-            hidePUA   : localStorage.hidePUA == 'true',
-            blacklist : blacklist,
-            popup     : localStorage.popup,
-        });
+/**
+ * Lister chorme message
+ * 
+ * @param {object} request
+ * @param {object} sender
+ * @param {object} sendResponse
+ */
+function listener( request, sender, sendResponse ) {
+    if ( request == "get_settings" ) {
+        sendResponse( conver( localStorage ));
     } else if ( request && request.id == "popup" ) {
         localStorage.popup = request.value;
         localStorage.popup == "popup" ? removeWindow() : createWindow();
         localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url }) : chrome.browserAction.setPopup({ popup: "" });
+    } else if ( request && request.id == "set_settings" ) {
+        Object.keys( request.value ).forEach( key => {
+            localStorage[key] = request.value[key];
+        });
+    } else if ( request && request.id == "clear_settings" ) {
+        localStorage.clear();
+        initialize();
+    } else if ( request && request.id == "analytics" ) {
+        ga( "send", {
+            hitType      : "event",
+            eventCategory: request.value.eventCategory,
+            eventAction  : request.value.eventAction,
+        });
     }
-    /*
-    if (request == 'insertCSS') {
-        chrome.tabs.insertCSS(sender.tab.id, {
-          file: 'backup/sprite/sprite.css',
-          allFrames: true
-        })
-        return true
-    }
-    */
 }
 
 /***********************
  * Emoji pasting
  ***********************/
-
-localStorage.message_id = 0;
 
 // listen to other tabs, last one always overwrites the others
 chrome.extension.onMessage.addListener(function (message) {

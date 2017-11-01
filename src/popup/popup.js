@@ -1,36 +1,35 @@
 console.log( "=== +emoji popup load ===" )
 
+import categories from 'categories';
+import chardict   from 'chardict';
+import minimatch  from 'minimatch';
+
 /***********************
  * Init
  ***********************/
 
-var emojisByChar = {},
-    allChars     = [],
-    items        = chardict.items;
+const emojisByChar = {},
+      allChars     = [],
+      items        = chardict.items,
+      baseUrl      =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
 
-var faces, faces_wrapper, menu, copy_elem, feedback,
-    baseUrl =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
+let faces, faces_wrapper, menu, copy_elem, feedback;
 
-for (var i in items) {
-  if (items.hasOwnProperty(i)) {
-    var ch = items[i].image.split('.')[0];
-    emojisByChar[ch] = items[i];
-    allChars.push(ch);
-  }
+for ( let i in items ) {
+    if (items.hasOwnProperty( i )) {
+        const ch         = items[i].image.split('.')[0];
+        emojisByChar[ch] = items[i];
+        allChars.push( ch );
+    }
 }
-
-if (typeof localStorage.recent == 'undefined')
-    localStorage.recent = '';
 
 /***********************
  * Enerty point
  ***********************/
 
-// attach init event
-// window.addEventListener('DOMContentLoaded', init, false);
-init();
+initialize();
 
-function init() {
+function initialize() {
 
     // face list
     faces            = document.getElementById("faces");
@@ -42,7 +41,7 @@ function init() {
 
     // menu init
     menu             = document.getElementById("menu");
-    menu.onmouseover = menu_click;
+    localStorage.clicked == "true" ? menu.onclick = menu_click : menu.onmouseover = menu_click;
 
     // dummy elem used by copy and paste for text manipulation
     copy_elem        = document.createElement('input');
@@ -55,7 +54,20 @@ function init() {
     document.body.appendChild(feedback);
 
     // after install show a category instead of an empty 'recent' list
-    localStorage.recent == '' && menu_click({target: menu.getElementsByTagName('a')[1] });
+    localStorage.recent == "" && menu_click({target: menu.getElementsByTagName('a')[1] });
+
+    $( "#action" ).attr( "class", localStorage.popup );
+    $( "#action" ).text( localStorage.popup == "popup" ? "弹出" : "缩入" );
+
+    if ( localStorage.popup == "window" ) {
+        $( "body"   ).addClass( "window_width" );
+        $( "#faces" ).addClass( "window_width" );
+        $( "#bottom-contrlbar" ).addClass( "window_bottom" );
+    }
+
+    $(window).resize( function() {
+        localStorage.popup == "window" && $( "body" ).height( $(window).height() - $( "#bottom-contrlbar ").height() * 2 )
+    });
 }
 
 // broadcast popup events
@@ -121,35 +133,61 @@ function show_recent() {
 
 var message_id;
 
+/**
+ * is black list
+ * 
+ * @returns {boolean} true: is black list false: not is black list
+ */
+function isBlacklist( href ) {
+    const list = localStorage.blacklist.split( "," ),
+          idx  = list.findIndex( url => {
+            if ( !url.startsWith( "http" ) && new RegExp( url ).test( href )) {
+                return true;
+            } else if ( url.startsWith( "http" ) && minimatch( href, url ) ) {
+                return true;
+            }
+    });
+    return idx == -1 ? false : true;
+}
+
 function face_click(e) {
 
     if (e.target.nodeName != 'IMG') return;
 
+    chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "click" }});
     add_to_recent(e.target.dataset.face);
     addToMulti( e.target );
 
-    const emoji = ` ${e.target.dataset.char} `;
+    let emoji = e.target.dataset.char;
+    localStorage.blank == "true" && ( emoji = ` ${emoji} ` );
 
     // if there's an input field waiting for a paste
     // let's give the face to him
-    if (+localStorage.message_id)  {
+    if ( +localStorage.message_id && localStorage.popup == "popup" ) {
         getSelectedTab( function ( tab ) {
-          chrome.tabs.sendMessage( tab.id, {
-              name: 'face_to_paste',
-              id  : localStorage.message_id,
-              face: emoji
-          });
-          notifcation( "success", "已插入", e.target );
-          localStorage.message_id = 0;
-          // allFrames
-          //chrome.tabs.executeScript({
-          //    allFrames: true,
-          //    code: "paste_face({name:'face_to_paste', id:" +  localStorage.message_id + ", face: '" + e.target.dataset.char + "'})"
-          //});
-          //setTimeout(function () {
-          //        window.close();
-          //        chrome.tabs.update(tab.id, { active: true }, function () {})
-          //}, 350);
+            if ( !isBlacklist( tab.url ) ) {
+                chrome.tabs.sendMessage( tab.id, {
+                    name: 'face_to_paste',
+                    id  : localStorage.message_id,
+                    face: emoji
+                });
+                notifcation( "success", "已插入", e.target );
+                localStorage.clip == "true" && copyToClipboard( emoji );
+                localStorage.message_id = 0;
+            } else {
+                copyToClipboard( emoji );
+                notifcation( "warning", "已复制", e.target );
+            }
+
+            // allFrames
+            //chrome.tabs.executeScript({
+            //    allFrames: true,
+            //    code: "paste_face({name:'face_to_paste', id:" +  localStorage.message_id + ", face: '" + e.target.dataset.char + "'})"
+            //});
+            //setTimeout(function () {
+            //        window.close();
+            //        chrome.tabs.update(tab.id, { active: true }, function () {})
+            //}, 350);
         });
     } else {
         copyToClipboard( emoji );
@@ -264,16 +302,6 @@ update();
 /***********************
  * Bottom controlbar
  ***********************/
-
-/**
-* Get settings from response
-*/
-chrome.runtime.sendMessage( "get_settings", function ( resp ) {
-    if ( resp && resp.popup ) {
-        $( "#action" ).attr( "class", resp.popup );
-        $( "#action" ).text( resp.popup == "popup" ? "弹出" : "缩入" );
-    }
-});
 
 /**
 * Add emoji to multi-copy

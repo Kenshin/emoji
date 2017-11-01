@@ -1,4 +1,4 @@
-var chardict = {
+const chardict = {
    "items":[
       /*
       {
@@ -8465,3 +8465,5 @@ var chardict = {
       "\uF8FF"
    ]
 }
+
+export default chardict;

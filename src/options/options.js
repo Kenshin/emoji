@@ -1,46 +1,52 @@
+console.log( "=== +emoji options page load ===" )
 
-function loadOptions() {
-    var scale = document.getElementById("fieldscale");
-    scale.value = localStorage["scale"];
+import 'option_css';
+import '../vender/notify/notify.css';
 
-    var usefont = document.getElementById("fieldusefont");
-    usefont.checked = (localStorage["usefont"] == "true");
+import Velocity  from 'velocity';
+import Setting   from 'setting';
 
-    var hidePUA = document.getElementById("fieldhidePUA");
-    hidePUA.checked = (localStorage["hidePUA"] == "true");
+/**
+* Entry: Get settings from response
+*/
+chrome.runtime.sendMessage( "get_settings", function ( resp ) {
+    console.log( "get_settings", resp )
+    $( "body" ).velocity({ opacity: 1 }, { duration: 1000, complete: ()=> {
+        $( "body" ).removeAttr( "style" );
+    }});
+    settingRender( { ...resp } );
+});
 
-    var blacklist = document.getElementById("fieldblacklist");
-    blacklist.value = localStorage["blacklist"];
+/**
+ * Setting Render
+ * 
+ * @param {object} options
+ */
+function settingRender( options ) {
+    ReactDOM.render( <Setting options={ options } />, $( ".setting" )[0] );
 }
 
-function saveOptions() {
-    var scale = document.getElementById("fieldscale");
-    localStorage["scale"] = scale.value;
+// Google Analytics
+chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "option", eventAction : "open" }});
 
-    var usefont = document.getElementById("fieldusefont");
-    localStorage["usefont"] = usefont.checked;
-
-    var hidePUA = document.getElementById("fieldhidePUA");
-    localStorage["hidePUA"] = hidePUA.checked;
-
-    var blacklist = document.getElementById("fieldblacklist");
-    localStorage["blacklist"] = blacklist.value;
-
-    window.close();
-}
-
-function cancelOptions() {
-    window.close();
-}
-
-function init() {
-    var save = document.getElementById("buttonsave");
-    save.addEventListener("click", saveOptions);
-
-    var cancel = document.getElementById("buttoncancel");
-    cancel.addEventListener("click", cancelOptions);
-
-    loadOptions();
-}
-
-document.body.addEventListener("load", init());
+// Start of Async Drift Code
+!function() {
+  var t;
+  if (t = window.driftt = window.drift = window.driftt || [], !t.init) return t.invoked ? void (window.console && console.error && console.error("Drift snippet included twice.")) : (t.invoked = !0, 
+  t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+  t.factory = function(e) {
+    return function() {
+      var n;
+      return n = Array.prototype.slice.call(arguments), n.unshift(e), t.push(n), t;
+    };
+  }, t.methods.forEach(function(e) {
+    t[e] = t.factory(e);
+  }), t.load = function(t) {
+    var e, n, o, i;
+    e = 3e5, i = Math.ceil(new Date() / e) * e, o = document.createElement("script"), 
+    o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + i + "/" + t + ".js", 
+    n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
+  });
+}();
+drift.SNIPPET_VERSION = '0.3.1';
+drift.load('26857h5m5iad');
