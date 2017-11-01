@@ -66,8 +66,6 @@ _均不会出现乱码情况_
 
 ### 感谢：
 
-> 希望有开源代码可以利用一下，结果找到了如下三个：
-
 - https://github.com/Janson-Leung/Emoji-Extension-for-Chrome  
 
 - https://github.com/locomojis/Chromoji
