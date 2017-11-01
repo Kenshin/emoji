@@ -52,5 +52,7 @@
     "permissions"             : [ "http://*/", "https://*/", "clipboardWrite", "storage", "tabs" ],
     "content_security_policy" : "script-src 'self' https://js.driftt.com https://www.google-analytics.com; object-src 'self'",
     "web_accessible_resources": [ "assets/faces/*.png" ],
+    "offline_enabled" : true,
+    "update_url"      : "https://clients2.google.com/service/update2/crx",
     "manifest_version": 2
 }
