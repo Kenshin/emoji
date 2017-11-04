@@ -1,0 +1,9 @@
+{
+   "desc": {
+      "message": "一个简单、可靠、纯粹、中文语义化的 Emoji 扩展。"
+   },
+   "extName": {
+      "description": "Extension name.",
+      "message": "+Emoji"
+   }
+}

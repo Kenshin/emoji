@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>+Emoji</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="popup.css">
+    </head>
+    <body>
+        <div id="menu">
+            <a href="#recent" class="recent active" title="历史">历史</a>
+            <a href="#smileys" title="表情">表情</a>
+            <a href="#symbols" title="字符">字符</a>
+            <a href="#nature" title="自然">自然</a>
+            <a href="#events" title="社会">社会</a>
+            <a href="#places" title="物品">物品</a>
+        </div>
+        <div id="faces-wrapper">
+            <div id="faces"></div>
+        </div>
+        <div id="bottom-contrlbar">
+            <a id="action" class="window" href="#">设置</a>
+            <a id="copy"   href="#">复制</a>
+            <a id="clear"  href="#">清除</a>
+            <div id="multi-copy"></div>
+        </div>
+        <script src="../bundle/common.js"></script>
+        <script src="../vender/emoji/chardict.js"></script>
+        <script src="../vender/emoji/categories.js"></script>
+        <script src="../bundle/popup.js"></script>
+    </body>
+</html>

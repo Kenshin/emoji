@@ -3,5 +3,9 @@ node_modules/**
 src/bundle/**
 publish/**
 
+ext/bundle/**
+ext/assets/faces/**
+ext/assets/icons/**
+
 # for mac
 **/.DS_Store
