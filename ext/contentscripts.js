@@ -10,6 +10,7 @@ const trigger = {
 faces = new Map();
 
 let $input, storage,
+    insert_type = "key", // include: key and menu
     status  = "pending",
     reg     = new RegExp( trigger.prefix + trigger.suffix );
 
@@ -59,14 +60,15 @@ browser.runtime.sendMessage( "get_settings", function ( resp ) {
  */
 function keyUpEventHandler( event ) {
     if ( event.keyCode == 27 ) {
-        $( "body" ).find( "#simpemoji" ).length > 0 && remove();
+        $( "body" ).find( "#simpemoji" ).length > 0 && remove( true );
     } else if ( event.keyCode == 9 ) {
-        $( "body" ).find( "#simpemoji" ).length > 0 && highlight();
+        $( "body" ).find( "#simpemoji" ).length > 0 && insert_type == "key" && highlight();
     } else if ( event.keyCode == 13 ) {
-        $( "body" ).find( "#simpemoji img" ).length > 0 && enter();
+        $( "body" ).find( "#simpemoji img" ).length > 0 && insert_type == "key" && enter();
     } else {
         $input = $( event.target );
         if ( reg.test( $input.val() )) {
+            insert_type = "key";
             $( "body" ).on( "keydown", bodyKeydownHandler );
             $( "body" ).find( "#simpemoji" ).length == 0 && face( $input.val().match( reg )[0] );
             $input.keydown( inputKeydownHandler );
@@ -155,7 +157,17 @@ function listen() {
  */
 function insert( value ) {
     storage.blank == true && ( value = ` ${value} ` );
-    $input.val( $input.val().replace( reg, value ));
+    if ( insert_type == "key" ) {
+       $input.val( $input.val().replace( reg, value ));
+    } else {
+        const start = $input[0].selectionStart,
+              text  = $input.val();
+        $input.val( text.substr( 0, start ) + value + text.substr( start ) );
+        setTimeout( ()=> {
+            $input[0].setSelectionRange( start + 2, start + 2 );
+            $input[0].focus();
+        }, 100 );
+    }
     browser.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "insert" }});
 }
 
@@ -201,7 +213,8 @@ function inputKeydownHandler( event ) {
 /**
  * Remove and clear
  */
-function remove() {
+function remove( is_remove = false ) {
+    if ( !is_remove && insert_type == "menu" ) return;
     $( ".simpemoji-bg"   ).off();
     $( ".simpemoji-face" ).off();
     $( "#simpemoji"      ).off().remove();
@@ -226,3 +239,16 @@ function unicode( input ) {
     }
     return comp.toString("16");
 }
+
+$( "body" ).on( "mouseup", mouseUpEventHandle );
+function mouseUpEventHandle( event ) {
+    event.type == "mouseup" && [ "input", "textarea" ].includes( event.target.nodeName.toLowerCase() ) &&
+        ( $input = $( event.target ));
+}
+
+browser.runtime.onMessage.addListener( request => {
+    if ( request.type == "rightclick" ) {
+        insert_type = "menu";
+        face( "::  " );
+    }
+});

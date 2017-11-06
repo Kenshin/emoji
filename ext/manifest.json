@@ -40,7 +40,7 @@
         "page": "options/options.html",
         "open_in_tab": true
     },
-    "permissions"             : [ "http://*/", "https://*/", "clipboardWrite", "storage", "tabs" ],
+    "permissions"             : [ "http://*/", "https://*/", "clipboardWrite", "storage", "tabs", "menus" ],
     "content_security_policy" : "script-src 'self' https://js.driftt.com; object-src 'self'",
     "web_accessible_resources": [ "assets/faces/*.png" ],
     "manifest_version": 2

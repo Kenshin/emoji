@@ -152,3 +152,21 @@ function removeWindow() {
 }
 
 localStorage.popup == "popup" ? browser.browserAction.setPopup({ popup: popup_url }) : browser.browserAction.setPopup({ popup: "" });
+
+
+/***********************
+ * Menu
+ ***********************/
+
+browser.menus.create({
+    id       : "rightclick",
+    title    : "+Emoji",
+    contexts : [ "editable" ]
+});
+
+browser.menus.onClicked.addListener( function( info, tab ) {
+    console.log( info, tab )
+    browser.tabs.sendMessage(
+        tab.id, {type: info.menuItemId}
+    );
+});
