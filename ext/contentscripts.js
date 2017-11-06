@@ -161,10 +161,11 @@ function insert( value ) {
        $input.val( $input.val().replace( reg, value ));
     } else {
         const start = $input[0].selectionStart,
-              text  = $input.val();
+              text  = $input.val(),
+              empty = storage.blank == true ? 4 : 2;
         $input.val( text.substr( 0, start ) + value + text.substr( start ) );
         setTimeout( ()=> {
-            $input[0].setSelectionRange( start + 2, start + 2 );
+            $input[0].setSelectionRange( start + empty, start + empty );
             $input[0].focus();
         }, 100 );
     }
