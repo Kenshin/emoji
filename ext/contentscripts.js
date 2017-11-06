@@ -78,7 +78,11 @@ function keyUpEventHandler( event ) {
 }
 
 /**
- * Add face
+ * Add face, mode:
+ * 
+ * - single   insert e.g. [::<same keyword> ](  )
+ * - multiple insert e.g. right click menu(  )
+ * - directly insert
  *
  * @param  {string} [::<same keyword> ]
  */
