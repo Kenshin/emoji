@@ -6,6 +6,15 @@ import '../vender/notify/notify.css';
 import Velocity  from 'velocity';
 import Setting   from 'setting';
 
+const versions = new Map([
+    [ "1.0.0", "Sun Jun 11 2017 12:30:00 GMT+0800 (CST)" ],
+    [ "1.1.0", "Fri Jun 30 2017 09:27:18 GMT+0800 (CST)" ],
+]),
+details = new Map([
+    [ "1.0.0", "" ],
+    [ "1.1.0", "新增「多选插入与直接插入」，" ],
+]);
+
 /**
 * Entry: Get settings from response
 */
@@ -14,8 +23,24 @@ browser.runtime.sendMessage( "get_settings", function ( resp ) {
     $( "body" ).velocity({ opacity: 1 }, { duration: 1000, complete: ()=> {
         $( "body" ).removeAttr( "style" );
     }});
+    hashnotify();
     settingRender( { ...resp } );
 });
+
+/**
+ * Hash notify
+ */
+function hashnotify() {
+    let type = location.search;
+    if ( type.startsWith( "?first" ) ) {
+        new Notify().Render( "+Emoji 版本提示", `感谢使用 +Emoji 😄 ，如需帮助请看 <a href="https://github.com/kenshin/emoji/wiki" target="_blank">入门指引</a>` );
+    }
+    else if ( type.startsWith( "?update" ) ) {
+        type = type.replace( "?update=", "" );
+        new Notify().Render( "+Emoji 版本提示", ` 🎉 已升级到 ${type}，` + details.get(type) + `详细请看 <a href="https://github.com/Kenshin/emoji/blob/master/CHANGELOG.md#${type}" target="_blank">更新日志</a>` );
+    }
+    history.pushState( "", "", "/options/options.html" );
+}
 
 /**
  * Setting Render

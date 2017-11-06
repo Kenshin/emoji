@@ -5,7 +5,7 @@ console.log( "=== +emoji background load ===" )
  ***********************/
 
 const storage = {
-    version : "1.0.0",
+    version : "1.1.0",
     message_id: 0,
     popup   : "popup",
     blank   : false,
@@ -37,6 +37,21 @@ function analytics() {
     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');        
     ga('create', 'UA-405976-10', 'auto');
     ga('send', 'pageview');
+}
+
+/***********************
+ * Version
+ ***********************/
+
+version();
+function version() {
+    if ( localStorage.version != storage.version ) {
+        const state = localStorage.version == undefined ? "first" : "update";
+        browser.tabs.create({
+            url: browser.runtime.getURL( "options/options.html?" ) + `${state}=${storage.version}`
+        });
+        localStorage.version = storage.version;
+    }
 }
 
 /***********************
