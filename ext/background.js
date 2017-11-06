@@ -1,7 +1,7 @@
 console.log( "=== +emoji background load ===" )
 
 /***********************
- * Init
+ * Variable
  ***********************/
 
 const storage = {
@@ -22,6 +22,10 @@ const storage = {
     ]
 };
 
+/***********************
+ * Analytics
+ ***********************/
+
 /**
  * Google Analytics 
  */
@@ -34,6 +38,10 @@ function analytics() {
     ga('create', 'UA-405976-10', 'auto');
     ga('send', 'pageview');
 }
+
+/***********************
+ * Initialize
+ ***********************/
 
 initialize();
 browser.runtime.onMessage.addListener( listener );
@@ -160,9 +168,9 @@ localStorage.popup == "popup" ? browser.browserAction.setPopup({ popup: popup_ur
  * Menu
  ***********************/
 
- /**
-  * Create menu
-  */
+/**
+ * Create menu
+ */
 function createMenu() {
     browser.menus.create({
         id       : "rightclick",
