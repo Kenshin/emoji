@@ -25,7 +25,8 @@ function isBlacklist() {
             if ( !url.startsWith( "http" ) && url == window.location.host.replace( "www.", "" ) ) {
                 return true;
             }
-            /*else if ( url.startsWith( "http" ) && minimatch( window.location.href, url ) ) {
+            /*
+            else if ( url.startsWith( "http" ) && minimatch( window.location.href, url ) ) {
                 return true;
             }
             */
