@@ -85,9 +85,11 @@ function keyUpEventHandler( event ) {
 function face( filter ) {
     const reg     = new RegExp( `(${trigger.prefix})| `, "ig" );
     filter        = filter.replace( reg, "" );
-    let   html    = "";
+    let   html    = "", count = 0, char = "";
     const baseUrl = browser.extension.getURL( "assets/faces/" ),
           render  = ( item, type ) => {
+            count++;
+            char  = item.chars[0];
             html += '<img src="' + baseUrl + item.image + '" ' +
                     '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
                     '     data-face="' + type + '" data-char="' + item.chars[0] + '" />';
@@ -111,7 +113,8 @@ function face( filter ) {
             item && item.name.toLowerCase().includes( filter.toLowerCase() ) && render( item, type );
         });
     }
-    html != "" && dropdown( html );
+    if ( count == 1 )  insert( char );
+    else html != "" && dropdown( html );        
 }
 
 /**
