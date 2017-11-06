@@ -11,6 +11,7 @@ const storage = {
     blank   : false,
     clip    : false,
     clicked : true,
+    menu    : true,
     recent  : "",
     // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
     trigger_prefix: "",
@@ -79,6 +80,7 @@ function listener( request, sender, sendResponse ) {
         Object.keys( request.value ).forEach( key => {
             localStorage[key] = request.value[key];
         });
+        localStorage.menu == "false" ? removeMenu() : createMenu();
     } else if ( request && request.id == "clear_settings" ) {
         localStorage.clear();
         initialize();
@@ -158,12 +160,25 @@ localStorage.popup == "popup" ? browser.browserAction.setPopup({ popup: popup_ur
  * Menu
  ***********************/
 
-browser.menus.create({
-    id       : "rightclick",
-    title    : "+Emoji",
-    contexts : [ "editable" ]
-});
+ /**
+  * Create menu
+  */
+function createMenu() {
+    browser.menus.create({
+        id       : "rightclick",
+        title    : "+Emoji",
+        contexts : [ "editable" ]
+    });    
+}
 
+/**
+ * Remove menu
+ */
+function removeMenu() {
+    browser.menus.remove( "rightclick" );
+}
+
+createMenu();
 browser.menus.onClicked.addListener( function( info, tab ) {
     console.log( info, tab )
     browser.tabs.sendMessage(
