@@ -7,13 +7,17 @@ import Velocity  from 'velocity';
 import Setting   from 'setting';
 
 const versions = new Map([
-    [ "1.0.0", "Sun Jun 11 2017 12:30:00 GMT+0800 (CST)" ],
-    [ "1.1.0", "Fri Jun 30 2017 09:27:18 GMT+0800 (CST)" ],
+    [ "1.0.0", "Fri Nov 03 2017 15:27:12 GMT+0800 (CST)" ],
+    [ "1.1.0", "Mon Nov 06 2017 14:54:41 GMT+0800 (CST)" ],
 ]),
 details = new Map([
     [ "1.0.0", "" ],
     [ "1.1.0", "新增「多选插入与直接插入」，" ],
 ]);
+
+/***********************
+ * Entry
+ ***********************/
 
 /**
 * Entry: Get settings from response
@@ -50,6 +54,10 @@ function hashnotify() {
 function settingRender( options ) {
     ReactDOM.render( <Setting options={ options } />, $( ".setting" )[0] );
 }
+
+/***********************
+ * Analytics
+ ***********************/
 
 // Google Analytics
 browser.runtime.sendMessage({ id: "analytics", value: { eventCategory: "option", eventAction : "open" }});
