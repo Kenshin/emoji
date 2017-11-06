@@ -71,9 +71,15 @@ function keyUpEventHandler( event ) {
         if ( reg.test( $input.val() )) {
             insert_type = "key";
             $( "body" ).on( "keydown", bodyKeydownHandler );
-            $( "body" ).find( "#simpemoji" ).length == 0 && face( $input.val().match( reg )[0] );
+            //$( "body" ).find( "#simpemoji" ).length == 0 && face( $input.val().match( reg )[0] );
+            if ( $( "body" ).find( "#simpemoji" ).length == 0 ) {
+                face( $input.val().match( reg )[0] );
+            } else {
+                $( "#simpemoji"      ).off().remove();
+                face( $input.val().match( reg )[0] );
+            }
             $input.keydown( inputKeydownHandler );
-            $input.one( "blur", event => event.target.focus() );
+            $input.one( "blur", event => event.target.focus() );            
         }
     }
 }
@@ -119,7 +125,7 @@ function face( filter ) {
         });
     }
     if ( count == 1 )  insert( char );
-    else html != "" && dropdown( html );        
+    else html != "" && dropdown( html );
 }
 
 /**
@@ -230,6 +236,7 @@ function remove( is_remove = false ) {
     $( "body"            ).off( "keydown", bodyKeydownHandler )
     $input && $input.off( "keydown", inputKeydownHandler );
     $input = undefined;
+    insert_type = "normal";
 }
 
 /**
