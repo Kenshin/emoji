@@ -110,7 +110,7 @@ function face( filter ) {
         const types = categories["smileys"].concat( categories["symbols"] );
         types.forEach( type => {
             const item = faces.get( `${type}.png` );
-            item && item.name.toLowerCase().includes( filter.toLowerCase() ) && render( item, type );
+            insert_type == "menu" ? render( item, type ) : item && item.name.toLowerCase().includes( filter.toLowerCase() ) && render( item, type );
         });
     }
     if ( count == 1 )  insert( char );
