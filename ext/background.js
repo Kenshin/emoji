@@ -109,11 +109,13 @@ function listener( request, sender, sendResponse ) {
         localStorage.clear();
         initialize();
     } else if ( request && request.id == "analytics" ) {
-        //ga( "send", {
-        //    hitType      : "event",
-        //    eventCategory: request.value.eventCategory,
-        //    eventAction  : request.value.eventAction,
-        //});
+        /*
+        ga( "send", {
+            hitType      : "event",
+            eventCategory: request.value.eventCategory,
+            eventAction  : request.value.eventAction,
+        });
+        */
     }
 }
 
@@ -191,7 +193,7 @@ function createMenu() {
         id       : "rightclick",
         title    : "+Emoji",
         contexts : [ "editable" ]
-    });    
+    });
 }
 
 /**
