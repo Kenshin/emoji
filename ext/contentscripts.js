@@ -10,7 +10,7 @@ const trigger = {
 faces = new Map();
 
 let $input, storage,
-    insert_type = "key", // include: key and menu
+    insert_type = "normal", // include: normal, key and menu
     status  = "pending",
     reg     = new RegExp( trigger.prefix + trigger.suffix );
 
@@ -67,8 +67,8 @@ function keyUpEventHandler( event ) {
     } else if ( event.keyCode == 13 ) {
         $( "body" ).find( "#simpemoji img" ).length > 0 && insert_type == "key" && enter();
     } else {
-        $input = $( event.target );
-        if ( reg.test( $input.val() )) {
+        if ( reg.test( event.target.value ) && insert_type != "menu" ) {
+            $input      = $( event.target );
             insert_type = "key";
             $( "body" ).on( "keydown", bodyKeydownHandler );
             if ( $( "body" ).find( "#simpemoji" ).length == 0 ) {
@@ -262,7 +262,7 @@ function mouseUpEventHandle( event ) {
 }
 
 browser.runtime.onMessage.addListener( request => {
-    if ( request.type == "rightclick" ) {
+    if ( request.type == "rightclick" && insert_type != "key" ) {
         insert_type = "menu";
         face( "::  " );
     }
