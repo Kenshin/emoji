@@ -364,10 +364,10 @@ function sendMessage( emoji ) {
 // save active frame's message id for pasting
 /*
 // this was taken out!!!
-chrome.extension.onMessage.addListener(function(message) {
+chrome.runtime.onMessage.addListener(function(message) {
     if (message.name == "input_to_popup") {
         message_id = message.id;
     }
 });
-chrome.extension.sendMessage({ name: "popup_open" });
+chrome.runtime.sendMessage({ name: "popup_open" });
 */

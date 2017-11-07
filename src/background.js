@@ -35,7 +35,7 @@ function analytics() {
 }
 
 initialize();
-chrome.extension.onMessage.addListener( listener );
+chrome.runtime.onMessage.addListener( listener );
 
 /**
  * Conver local storage
@@ -96,7 +96,7 @@ function listener( request, sender, sendResponse ) {
  ***********************/
 
 // listen to other tabs, last one always overwrites the others
-chrome.extension.onMessage.addListener(function (message) {
+chrome.runtime.onMessage.addListener(function (message) {
     if (message.name == "input_deselected") {
         localStorage.message_id = 0;
     }

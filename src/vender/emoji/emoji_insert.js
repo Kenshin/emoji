@@ -55,10 +55,10 @@ function listener(e) {
 
 	if (activeElement) {
 		pending_message_id = +new Date;
-		chrome.extension.sendMessage({ name: "input_selected", id: pending_message_id });
+		chrome.runtime.sendMessage({ name: "input_selected", id: pending_message_id });
 	} else {
 		pending_message_id = 0;
-		chrome.extension.sendMessage({ name: "input_deselected" });
+		chrome.runtime.sendMessage({ name: "input_deselected" });
 	}
 }
 
@@ -83,7 +83,7 @@ document.addEventListener('focus', onFocusExtendFont, true); // doesn't bubble
 
 
 // listen to other tabs, last one always overwrites the others
-chrome.extension.onMessage.addListener(function (message) {
+chrome.runtime.onMessage.addListener(function (message) {
 	// popup sent back a face to paste & it's addressed to our message id
 	if (message.name == "face_to_paste" && message.id == pending_message_id && activeElement) {
 		 paste_face(message);
