@@ -258,6 +258,10 @@ function unicode( input ) {
     return comp.toString("16");
 }
 
+/**
+ * Mouse up event handler
+ */
+
 $( "body" ).on( "mouseup", mouseUpEventHandle );
 function mouseUpEventHandle( event ) {
     event.type == "mouseup" && [ "input", "textarea" ].includes( event.target.nodeName.toLowerCase() ) &&
