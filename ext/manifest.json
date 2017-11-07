@@ -27,7 +27,8 @@
             "contentscripts.js"
         ],
         "matches":[ "http://*/*", "https://*/*" ],
-        "run_at": "document_end"
+        "run_at": "document_end",
+        "all_frames" : true
     }],
     "browser_action" : {
         "default_icon": {
