@@ -63,10 +63,11 @@ function initialize() {
         $( "body"   ).addClass( "window_width" );
         $( "#faces" ).addClass( "window_width" );
         $( "#bottom-contrlbar" ).addClass( "window_bottom" );
+        $( "body" ).height( $(window).height() - $( "#bottom-contrlbar ").height() * 2 );
     }
 
     $(window).resize( function() {
-        localStorage.popup == "window" && $( "body" ).height( $(window).height() - $( "#bottom-contrlbar ").height() * 2 )
+        localStorage.popup == "window" && $( "body" ).height( $(window).height() - $( "#bottom-contrlbar ").height() * 2 );
     });
 }
 

@@ -5,14 +5,15 @@ import chardict   from 'chardict';
 import zh_emoji   from 'zh_emoji';
 import minimatch  from 'minimatch';
 
-// (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
+// (::|[\uff1a]{2})(([\u4e00-\u9fa5]|[a-zA-Z ])+ $)
 const trigger = {
     prefix: "::|[\uff1a]{2}",
-    suffix: "[\u4e00-\u9fa5]|[a-zA-Z ]+ "
+    suffix: "([\u4e00-\u9fa5]|[a-zA-Z ])+ "
 },
 faces = new Map();
 
 let $input, storage,
+    insert_type = "normal", // include: normal, key and menu
     status  = "pending",
     reg     = new RegExp( trigger.prefix + trigger.suffix );
 
@@ -60,16 +61,22 @@ chrome.runtime.sendMessage( "get_settings", function ( resp ) {
  */
 function keyUpEventHandler( event ) {
     if ( event.keyCode == 27 ) {
-        $( "body" ).find( "#simpemoji" ).length > 0 && remove();
+        $( "body" ).find( "#simpemoji" ).length > 0 && remove( true );
     } else if ( event.keyCode == 9 ) {
-        $( "body" ).find( "#simpemoji" ).length > 0 && highlight();
+        $( "body" ).find( "#simpemoji" ).length > 0 && insert_type == "key" && highlight();
     } else if ( event.keyCode == 13 ) {
-        $( "body" ).find( "#simpemoji img" ).length > 0 && enter();
+        $( "body" ).find( "#simpemoji img" ).length > 0 && insert_type == "key" && enter();
     } else {
-        $input = $( event.target );
-        if ( reg.test( $input.val() )) {
+        if ( reg.test( event.target.value ) && insert_type != "menu" ) {
+            $input      = $( event.target );
+            insert_type = "key";
             $( "body" ).on( "keydown", bodyKeydownHandler );
-            $( "body" ).find( "#simpemoji" ).length == 0 && face( $input.val().match( reg )[0] );
+            if ( $( "body" ).find( "#simpemoji" ).length == 0 ) {
+                face( $input.val().match( reg )[0] );
+            } else {
+                $( "#simpemoji"      ).off().remove();
+                face( $input.val().match( reg )[0] );
+            }
             $input.keydown( inputKeydownHandler );
             $input.one( "blur", event => event.target.focus() );
         }
@@ -77,16 +84,22 @@ function keyUpEventHandler( event ) {
 }
 
 /**
- * Add face
+ * Add face, mode:
+ * 
+ * - single   insert e.g. [::<same keyword> ]
+ * - multiple insert e.g. right click menu
+ * - directly insert
  *
  * @param  {string} [::<same keyword> ]
  */
 function face( filter ) {
     const reg     = new RegExp( `(${trigger.prefix})| `, "ig" );
     filter        = filter.replace( reg, "" );
-    let   html    = "";
+    let   html    = "", count = 0, char = "";
     const baseUrl = chrome.extension.getURL( "assets/faces/" ),
           render  = ( item, type ) => {
+            count++;
+            char  = item.chars[0];
             html += '<img src="' + baseUrl + item.image + '" ' +
                     '     alt="' + item.chars[0] + '" title="' + item.name + '" ' +
                     '     data-face="' + type + '" data-char="' + item.chars[0] + '" />';
@@ -107,10 +120,14 @@ function face( filter ) {
         const types = categories["smileys"].concat( categories["symbols"] );
         types.forEach( type => {
             const item = faces.get( `${type}.png` );
-            item && item.name.toLowerCase().includes( filter.toLowerCase() ) && render( item, type );
+            insert_type == "menu" ? render( item, type ) : item && item.name.toLowerCase().includes( filter.toLowerCase() ) && render( item, type );
         });
     }
-    html != "" && dropdown( html );
+    if ( count == 1 && storage.one == true ) {
+        insert( char );
+        insert_type = "normal";
+    }
+    else html != "" && dropdown( html );
 }
 
 /**
@@ -156,7 +173,18 @@ function listen() {
  */
 function insert( value ) {
     storage.blank == true && ( value = ` ${value} ` );
-    $input.val( $input.val().replace( reg, value ));
+    if ( insert_type == "key" ) {
+       $input.val( $input.val().replace( reg, value ));
+    } else {
+        const start = $input[0].selectionStart,
+              text  = $input.val(),
+              empty = storage.blank == true ? 4 : 2;
+        $input.val( text.substr( 0, start ) + value + text.substr( start ) );
+        setTimeout( ()=> {
+            $input[0].setSelectionRange( start + empty, start + empty );
+            $input[0].focus();
+        }, 100 );
+    }
     chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "insert" }});
 }
 
@@ -202,13 +230,15 @@ function inputKeydownHandler( event ) {
 /**
  * Remove and clear
  */
-function remove() {
+function remove( is_remove = false ) {
+    if ( !is_remove && insert_type == "menu" ) return;
     $( ".simpemoji-bg"   ).off();
     $( ".simpemoji-face" ).off();
     $( "#simpemoji"      ).off().remove();
     $( "body"            ).off( "keydown", bodyKeydownHandler )
     $input && $input.off( "keydown", inputKeydownHandler );
     $input = undefined;
+    insert_type = "normal";
 }
 
 /**
@@ -227,3 +257,20 @@ function unicode( input ) {
     }
     return comp.toString("16");
 }
+
+/**
+ * Mouse up event handler
+ */
+
+$( "body" ).on( "mouseup", mouseUpEventHandle );
+function mouseUpEventHandle( event ) {
+    event.type == "mouseup" && [ "input", "textarea" ].includes( event.target.nodeName.toLowerCase() ) &&
+        ( $input = $( event.target ));
+}
+
+chrome.runtime.onMessage.addListener( request => {
+    if ( request.type == "rightclick" && insert_type != "key" ) {
+        insert_type = "menu";
+        face( "::  " );
+    }
+});

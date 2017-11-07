@@ -1,16 +1,18 @@
 console.log( "=== +emoji background load ===" )
 
 /***********************
- * Init
+ * Variable
  ***********************/
 
 const storage = {
-    version : "1.0.0",
+    version : "1.1.0",
     message_id: 0,
     popup   : "popup",
     blank   : false,
     clip    : false,
     clicked : false,
+    menu    : true,
+    one     : true,
     recent  : "",
     // (::|[\uff1a]{2})([\u4e00-\u9fa5]|[a-zA-Z ])+ $
     trigger_prefix: "",
@@ -20,6 +22,10 @@ const storage = {
         "google.com"
     ]
 };
+
+/***********************
+ * Analytics
+ ***********************/
 
 /**
  * Google Analytics 
@@ -33,6 +39,25 @@ function analytics() {
     ga('create', 'UA-405976-10', 'auto');
     ga('send', 'pageview');
 }
+
+/***********************
+ * Version
+ ***********************/
+
+version();
+function version() {
+    if ( localStorage.version != storage.version ) {
+        const state = localStorage.version == undefined ? "first" : "update";
+        chrome.tabs.create({
+            url: chrome.runtime.getURL( "options/options.html?" ) + `${state}=${storage.version}`
+        });
+        localStorage.version = storage.version;
+    }
+}
+
+/***********************
+ * Initialize
+ ***********************/
 
 initialize();
 chrome.runtime.onMessage.addListener( listener );
@@ -79,6 +104,7 @@ function listener( request, sender, sendResponse ) {
         Object.keys( request.value ).forEach( key => {
             localStorage[key] = request.value[key];
         });
+        localStorage.menu == "false" ? removeMenu() : createMenu();
     } else if ( request && request.id == "clear_settings" ) {
         localStorage.clear();
         initialize();
@@ -141,7 +167,7 @@ function createWindow() {
             tabId  : tab.id,
             type   : "popup",
             focused: true,
-            width  : 353, height : 290,
+            width  : 410, height : 350,
         }, function ( window ) { popup = window; });
     });
 }
@@ -155,3 +181,33 @@ function removeWindow() {
 }
 
 localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url }) : chrome.browserAction.setPopup({ popup: "" });
+
+/***********************
+ * Menu
+ ***********************/
+
+/**
+ * Create menu
+ */
+function createMenu() {
+    chrome.contextMenus.create({
+        id       : "rightclick",
+        title    : "+Emoji",
+        contexts : [ "editable" ]
+    });
+}
+
+/**
+ * Remove menu
+ */
+function removeMenu() {
+    chrome.contextMenus.remove( "rightclick" );
+}
+
+createMenu();
+chrome.contextMenus.onClicked.addListener( function( info, tab ) {
+    console.log( info, tab )
+    chrome.tabs.sendMessage(
+        tab.id, {type: info.menuItemId}
+    );
+});
