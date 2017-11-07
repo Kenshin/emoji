@@ -179,7 +179,6 @@ function removeWindow() {
 
 localStorage.popup == "popup" ? browser.browserAction.setPopup({ popup: popup_url }) : browser.browserAction.setPopup({ popup: "" });
 
-
 /***********************
  * Menu
  ***********************/
