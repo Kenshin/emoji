@@ -21,7 +21,7 @@ https://github.com/Kenshin/emoji
 
 #### 1.1.0
 
-> 2017.11.07，包括：Chrome 与 Firfox
+> 2017.11.07，包括：`Chrome` 与 `Firefox`
 
 - [x] :sparkles: 新的 `多选插入模式`，详细 [请看这里](https://github.com/Kenshin/emoji/wiki#多选插入模式)；
 
@@ -67,4 +67,4 @@ https://github.com/Kenshin/emoji
 
 - [x] :tada: `2017.09.18` 完成 `单选插入模式`；
 
-- [x] :tada: `2017.09.16` 立项，并初次提交；
+- [x] :tada: `2017.09.16` 需求构思，并初次提交；
