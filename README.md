@@ -44,16 +44,16 @@ _均不会出现乱码情况_
 ### 截图：
 
 **独立窗口**  
-<img src="https://i.imgur.com/aYRpQvC.png" width="407" />
+<img src="https://i.imgur.com/aYRpQvC.png" width="500" />
 
 **Popup 窗口**  
-<img src="http://ksria.com/emoji/assets/images/popup.png" width="500" />
+<img src="https://i.imgur.com/v7SUppd.png" width="500" />
+
+**选项**  
+<img src="https://i.imgur.com/B5W0xNm.png" width="500" />
 
 **中文语义化**  
 <img src="http://ksria.com/emoji/assets/images/chinese.gif" />
-
-**选项**  
-<img src="https://i.imgur.com/2nq1FIe.png" width="500" />
 
 ### 附一段使用视频：
 
