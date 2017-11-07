@@ -123,7 +123,7 @@ function face( filter ) {
             insert_type == "menu" ? render( item, type ) : item && item.name.toLowerCase().includes( filter.toLowerCase() ) && render( item, type );
         });
     }
-    if ( count == 1 )  insert( char );
+    if ( count == 1 && storage.one == true ) insert( char );
     else html != "" && dropdown( html );
 }
 

@@ -69,6 +69,10 @@ export default class Setting extends React.Component {
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
                     label="是否显示右键菜单？"
                     onChange={ (s)=>this.onChange(s, "menu" ) } />
+                <Switch width="100%" checked={ this.props.options.one }
+                    thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
+                    label="当插入的关键字查询结果唯一的话，是否直接替换？"
+                    onChange={ (s)=>this.onChange(s, "one" ) } />
                 <TextField 
                     multi={ false }
                     value={ this.props.options.trigger_prefix }
