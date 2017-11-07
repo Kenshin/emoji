@@ -8,7 +8,7 @@
 `+Emoji` _灵感来源于 `文字 + Emoji` 之意_
 
 ### 下载：
-[Chrome 应用商店](https://chrome.google.com/webstore/detail/+emoji/kieghamlkoahkbimidmahcjpikacoclm) · [Firefox 附加组件](https://addons.mozilla.org/zh-CN/developers/addon/emoji_cn/edit) · [更多版本](http://ksria.com/emoji/)
+[Chrome 应用商店](https://chrome.google.com/webstore/detail/+emoji/kieghamlkoahkbimidmahcjpikacoclm) · [Firefox 附加组件](https://addons.mozilla.org/zh-CN/developers/addon/emoji_cn/) · [更多版本](http://ksria.com/emoji/)
 
 ### 功能：
 
