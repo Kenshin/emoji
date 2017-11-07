@@ -262,9 +262,9 @@ function unicode( input ) {
  * Mouse up event handler
  */
 
-$( "body" ).on( "mouseup", mouseUpEventHandle );
+$( "body" ).on( "mouseover", mouseUpEventHandle );
 function mouseUpEventHandle( event ) {
-    event.type == "mouseup" && [ "input", "textarea" ].includes( event.target.nodeName.toLowerCase() ) &&
+    event.type == "mouseover" && [ "input", "textarea" ].includes( event.target.nodeName.toLowerCase() ) &&
         ( $input = $( event.target ));
 }
 
