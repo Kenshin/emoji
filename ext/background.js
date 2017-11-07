@@ -164,7 +164,7 @@ function createWindow() {
     const creating = browser.windows.create({
         url    : browser.extension.getURL( "/popup/popup.html" ),
         type   : "popup",
-        width  : 400, height : 350,
+        width  : 410, height : 350,
     });
     creating.then( function( windowInfo ) {
         popup = windowInfo;
