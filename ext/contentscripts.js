@@ -71,7 +71,6 @@ function keyUpEventHandler( event ) {
         if ( reg.test( $input.val() )) {
             insert_type = "key";
             $( "body" ).on( "keydown", bodyKeydownHandler );
-            //$( "body" ).find( "#simpemoji" ).length == 0 && face( $input.val().match( reg )[0] );
             if ( $( "body" ).find( "#simpemoji" ).length == 0 ) {
                 face( $input.val().match( reg )[0] );
             } else {
@@ -79,7 +78,7 @@ function keyUpEventHandler( event ) {
                 face( $input.val().match( reg )[0] );
             }
             $input.keydown( inputKeydownHandler );
-            $input.one( "blur", event => event.target.focus() );            
+            $input.one( "blur", event => event.target.focus() );
         }
     }
 }
@@ -87,8 +86,8 @@ function keyUpEventHandler( event ) {
 /**
  * Add face, mode:
  * 
- * - single   insert e.g. [::<same keyword> ](  )
- * - multiple insert e.g. right click menu(  )
+ * - single   insert e.g. [::<same keyword> ]
+ * - multiple insert e.g. right click menu
  * - directly insert
  *
  * @param  {string} [::<same keyword> ]
