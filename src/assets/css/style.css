@@ -89,6 +89,16 @@ img {
     font-size: 2.5rem;
 }
 
+.desc a {
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+    transition: border-color .5s;
+}
+
+.desc a:hover {
+    border-bottom: 3px solid var(--text-color);
+}
+
 .special {
     display: flex;
     justify-content: center;
@@ -103,7 +113,7 @@ img {
 }
 
 .special .gif {
-    border-radius: 7px;
+    border-radius: 3px;
     box-shadow: 1px 1px 3px color( var(--primary-color) alpha(-50%));
 }
 
