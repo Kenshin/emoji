@@ -1,7 +1,5 @@
 console.log( "=== +emoji popup load ===" )
 
-import categories from 'categories';
-import chardict   from 'chardict';
 import minimatch  from 'minimatch';
 
 /***********************
@@ -11,7 +9,7 @@ import minimatch  from 'minimatch';
 const emojisByChar = {},
       allChars     = [],
       items        = chardict.items,
-      baseUrl      =  "../assets/faces"; // "https://mail.google.com/mail/e" //chrome.extension.getURL('faces');
+      baseUrl      =  "../assets/faces"; // "https://mail.google.com/mail/e" //browser.extension.getURL('faces');
 
 let faces, faces_wrapper, menu, copy_elem, feedback;
 
@@ -74,10 +72,10 @@ function initialize() {
 // broadcast popup events
 // highlight active textarea or input element on the current tab
 getSelectedTab(function (tab) {
-    chrome.tabs.sendMessage(tab.id, 'popup_opened');    // allFrames
+    browser.tabs.sendMessage(tab.id, 'popup_opened');    // allFrames
     window.addEventListener('unload', function () {
-        var bg = chrome.extension.getBackgroundPage();
-        bg.chrome.tabs.sendMessage(tab.id, 'popup_closing');
+        var bg = browser.extension.getBackgroundPage();
+        bg.browser.tabs.sendMessage(tab.id, 'popup_closing');
     });
 });
 
@@ -155,7 +153,7 @@ function face_click(e) {
 
     if (e.target.nodeName != 'IMG') return;
 
-    chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "click" }});
+    browser.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "click" }});
     add_to_recent(e.target.dataset.face);
     addToMulti( e.target );
 
@@ -167,7 +165,7 @@ function face_click(e) {
     if ( +localStorage.message_id && localStorage.popup == "popup" ) {
         getSelectedTab( function ( tab ) {
             if ( !isBlacklist( tab.url ) ) {
-                chrome.tabs.sendMessage( tab.id, {
+                browser.tabs.sendMessage( tab.id, {
                     name: 'face_to_paste',
                     id  : localStorage.message_id,
                     face: emoji
@@ -181,13 +179,13 @@ function face_click(e) {
             }
 
             // allFrames
-            //chrome.tabs.executeScript({
+            //browser.tabs.executeScript({
             //    allFrames: true,
             //    code: "paste_face({name:'face_to_paste', id:" +  localStorage.message_id + ", face: '" + e.target.dataset.char + "'})"
             //});
             //setTimeout(function () {
             //        window.close();
-            //        chrome.tabs.update(tab.id, { active: true }, function () {})
+            //        browser.tabs.update(tab.id, { active: true }, function () {})
             //}, 350);
         });
     } else {
@@ -219,7 +217,7 @@ function copyToClipboard(text) {
 }
 
 function getSelectedTab(callback) {
-    chrome.tabs.query(
+    browser.tabs.query(
         { currentWindow: true, active: true },
         function (array) { callback(array[0]); }
     );
@@ -320,7 +318,7 @@ $( "#action" ).click( function ( event ) {
     const value = $( "#action" ).attr( "class" ) == "window" ? "popup" : "window";
     setTimeout(function () {
         window.close();
-        chrome.runtime.sendMessage({ id: "popup", value });
+        browser.runtime.sendMessage({ id: "popup", value });
     }, 350 );
 });
 
@@ -356,8 +354,8 @@ $( "#clear" ).click( function ( event ) {
  */
 /*
 function sendMessage( emoji ) {
-    chrome.tabs.query({ active: true, currentWindow: true}, function( tabs ) {
-        chrome.tabs.sendMessage(tabs[0].id, { id: "insert", emoji: emoji });
+    browser.tabs.query({ active: true, currentWindow: true}, function( tabs ) {
+        browser.tabs.sendMessage(tabs[0].id, { id: "insert", emoji: emoji });
     });
 }
 */
@@ -365,10 +363,10 @@ function sendMessage( emoji ) {
 // save active frame's message id for pasting
 /*
 // this was taken out!!!
-chrome.runtime.onMessage.addListener(function(message) {
+browser.extension.onMessage.addListener(function(message) {
     if (message.name == "input_to_popup") {
         message_id = message.id;
     }
 });
-chrome.runtime.sendMessage({ name: "popup_open" });
+browser.extension.sendMessage({ name: "popup_open" });
 */

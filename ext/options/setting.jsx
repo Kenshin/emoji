@@ -39,11 +39,11 @@ export default class Setting extends React.Component {
     onClick( type ) {
         console.log( this.props.options )
         if ( type == "set_settings" ) {
-            chrome.runtime.sendMessage({ id: type, value: { ...this.props.options } });
+            browser.runtime.sendMessage({ id: type, value: { ...this.props.options } });
             new Notify().Render( "保存成功，插入功能如需生效，需要刷新页面 😀" );
         } else {
             new Notify().Render( "snackbar", "是否清除当前数据并初始化？", "确认", ()=>{
-                chrome.runtime.sendMessage({ id: type, value: { ...this.props.options } });
+                browser.runtime.sendMessage({ id: type, value: { ...this.props.options } });
                 new Notify().Render( "清除成功，三秒后当前页面自动刷新 😁" );
                 setTimeout( ()=> location.reload(), 3000 );
             });
@@ -63,7 +63,7 @@ export default class Setting extends React.Component {
                     onChange={ (s)=>this.onChange(s, "clip" ) } />
                 <Switch width="100%" checked={ this.props.options.clicked }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
-                    label="Popup Tab 栏是否启用点击切换？（默认为鼠标悬停切换）"
+                    label="Popup Tab 栏是否启用点击切换？（取消后则为悬停切换）"
                     onChange={ (s)=>this.onChange(s, "clicked" ) } />
                 <Switch width="100%" checked={ this.props.options.menu }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"

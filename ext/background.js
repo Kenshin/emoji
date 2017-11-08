@@ -10,7 +10,7 @@ const storage = {
     popup   : "popup",
     blank   : false,
     clip    : false,
-    clicked : false,
+    clicked : true,
     menu    : true,
     one     : true,
     recent  : "",
@@ -30,7 +30,7 @@ const storage = {
 /**
  * Google Analytics 
  */
-analytics();
+//analytics();
 function analytics() {
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -48,8 +48,8 @@ version();
 function version() {
     if ( localStorage.version != storage.version ) {
         const state = localStorage.version == undefined ? "first" : "update";
-        chrome.tabs.create({
-            url: chrome.runtime.getURL( "options/options.html?" ) + `${state}=${storage.version}`
+        browser.tabs.create({
+            url: browser.runtime.getURL( "options/options.html?" ) + `${state}=${storage.version}`
         });
         localStorage.version = storage.version;
     }
@@ -60,7 +60,7 @@ function version() {
  ***********************/
 
 initialize();
-chrome.runtime.onMessage.addListener( listener );
+browser.runtime.onMessage.addListener( listener );
 
 /**
  * Conver local storage
@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener( listener );
  * @param {object} local storage
  */
 function conver( object ) {
-    const news = { ...object };
+    const news = $.extend( {}, object );
     Object.keys( news ).forEach( key => {
         news[key] == "true"  && ( news[key] = true );
         news[key] == "false" && ( news[key] = false );
@@ -99,7 +99,7 @@ function listener( request, sender, sendResponse ) {
     } else if ( request && request.id == "popup" ) {
         localStorage.popup = request.value;
         localStorage.popup == "popup" ? removeWindow() : createWindow();
-        localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url }) : chrome.browserAction.setPopup({ popup: "" });
+        localStorage.popup == "popup" ? browser.browserAction.setPopup({ popup: popup_url }) : browser.browserAction.setPopup({ popup: "" });
     } else if ( request && request.id == "set_settings" ) {
         Object.keys( request.value ).forEach( key => {
             localStorage[key] = request.value[key];
@@ -109,11 +109,13 @@ function listener( request, sender, sendResponse ) {
         localStorage.clear();
         initialize();
     } else if ( request && request.id == "analytics" ) {
+        /*
         ga( "send", {
             hitType      : "event",
             eventCategory: request.value.eventCategory,
             eventAction  : request.value.eventAction,
         });
+        */
     }
 }
 
@@ -122,7 +124,7 @@ function listener( request, sender, sendResponse ) {
  ***********************/
 
 // listen to other tabs, last one always overwrites the others
-chrome.runtime.onMessage.addListener(function (message) {
+browser.runtime.onMessage.addListener(function (message) {
     if (message.name == "input_deselected") {
         localStorage.message_id = 0;
     }
@@ -132,7 +134,7 @@ chrome.runtime.onMessage.addListener(function (message) {
 });
 
 // changing tabs should invalidate pending messages
-chrome.tabs.onActivated.addListener(function () {
+browser.tabs.onActivated.addListener(function () {
     localStorage.message_id = 0;
 });
 
@@ -143,7 +145,7 @@ chrome.tabs.onActivated.addListener(function () {
 const popup_url = "popup/popup.html";
 let   popup     = {};
 
-chrome.browserAction.onClicked.addListener( function( event ) {
+browser.browserAction.onClicked.addListener( function( event ) {
     if ( popup && popup.id ) {
         removeWindow();
     } else {
@@ -151,7 +153,7 @@ chrome.browserAction.onClicked.addListener( function( event ) {
     }
 });
 
-chrome.windows.onRemoved.addListener( function( windowId ) {
+browser.windows.onRemoved.addListener( function( windowId ) {
     if ( windowId == popup.id ) popup = {};
 });
 
@@ -159,16 +161,13 @@ chrome.windows.onRemoved.addListener( function( windowId ) {
  * Create popup window
  */
 function createWindow() {
-    chrome.tabs.create({
-        url        : chrome.extension.getURL( popup_url ),
-        active     : false
-    }, function ( tab ) {
-        chrome.windows.create({
-            tabId  : tab.id,
-            type   : "popup",
-            focused: true,
-            width  : 410, height : 350,
-        }, function ( window ) { popup = window; });
+    const creating = browser.windows.create({
+        url    : browser.extension.getURL( "/popup/popup.html" ),
+        type   : "popup",
+        width  : 410, height : 350,
+    });
+    creating.then( function( windowInfo ) {
+        popup = windowInfo;
     });
 }
 
@@ -176,11 +175,11 @@ function createWindow() {
  * Remove popup window
  */
 function removeWindow() {
-    chrome.windows.remove( popup.id );
+    browser.windows.remove( popup.id );
     popup = {};
 }
 
-localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url }) : chrome.browserAction.setPopup({ popup: "" });
+localStorage.popup == "popup" ? browser.browserAction.setPopup({ popup: popup_url }) : browser.browserAction.setPopup({ popup: "" });
 
 /***********************
  * Menu
@@ -190,7 +189,7 @@ localStorage.popup == "popup" ? chrome.browserAction.setPopup({ popup: popup_url
  * Create menu
  */
 function createMenu() {
-    chrome.contextMenus.create({
+    browser.menus.create({
         id       : "rightclick",
         title    : "+Emoji",
         contexts : [ "editable" ]
@@ -201,13 +200,13 @@ function createMenu() {
  * Remove menu
  */
 function removeMenu() {
-    chrome.contextMenus.remove( "rightclick" );
+    browser.menus.remove( "rightclick" );
 }
 
 createMenu();
-chrome.contextMenus.onClicked.addListener( function( info, tab ) {
+browser.menus.onClicked.addListener( function( info, tab ) {
     console.log( info, tab )
-    chrome.tabs.sendMessage(
+    browser.tabs.sendMessage(
         tab.id, {type: info.menuItemId}
     );
 });

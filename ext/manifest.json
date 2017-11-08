@@ -1,0 +1,48 @@
+{
+    "name"           : "__MSG_extName__",
+    "short_name"     : "+Emoji",
+    "version"        : "1.1.0.1108",
+    "description"    : "__MSG_desc__",
+    "default_locale" : "zh_CN",
+    "homepage_url"   : "http://ksria.com/emoji",
+    "author"         : "Kenshin Wang <kenshin@ksria.com>",
+    "icons"          : {
+        "16"         : "assets/icons/icon16.png",
+        "48"         : "assets/icons/icon48.png",
+        "128"        : "assets/icons/icon128.png"
+    },
+    "background"     : {
+        "scripts"    : [ "vender/jquery-2.1.1.min.js", "background.js" ]
+    },
+    "content_scripts": [{
+        "css": [
+            "assets/css/style.css"
+        ],
+        "js": [
+            "vender/jquery-2.1.1.min.js",
+            "vender/emoji/emoji_insert.js",
+            "vender/emoji/categories.js",
+            "vender/emoji/chardict.js",
+            "vender/emoji/zh_emoji.js",
+            "contentscripts.js"
+        ],
+        "matches":[ "http://*/*", "https://*/*" ],
+        "run_at": "document_end",
+        "all_frames" : true
+    }],
+    "browser_action" : {
+        "default_icon": {
+            "19": "assets/icons/icon19.png",
+            "38": "assets/icons/icon38.png"
+        },
+        "default_title": "+Emoji"
+    },
+    "options_ui": {
+        "page": "options/options.html",
+        "open_in_tab": true
+    },
+    "permissions"             : [ "http://*/", "https://*/", "clipboardWrite", "storage", "tabs", "menus" ],
+    "content_security_policy" : "script-src 'self' https://js.driftt.com; object-src 'self'",
+    "web_accessible_resources": [ "assets/faces/*.png" ],
+    "manifest_version": 2
+}

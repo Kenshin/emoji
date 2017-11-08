@@ -1,9 +1,6 @@
 console.log( "=== +emoji contentscripts load ===" )
 
-import categories from 'categories';
-import chardict   from 'chardict';
-import zh_emoji   from 'zh_emoji';
-import minimatch  from 'minimatch';
+//import minimatch  from 'minimatch';
 
 // (::|[\uff1a]{2})(([\u4e00-\u9fa5]|[a-zA-Z ])+ $)
 const trigger = {
@@ -27,9 +24,12 @@ function isBlacklist() {
           idx  = list.findIndex( url => {
             if ( !url.startsWith( "http" ) && url == window.location.host.replace( "www.", "" ) ) {
                 return true;
-            } else if ( url.startsWith( "http" ) && minimatch( window.location.href, url ) ) {
+            }
+            /*
+            else if ( url.startsWith( "http" ) && minimatch( window.location.href, url ) ) {
                 return true;
             }
+            */
     });
     return idx == -1 ? false : true;
 }
@@ -37,10 +37,10 @@ function isBlacklist() {
 /**
 * Entry
 */
-chrome.runtime.sendMessage( "get_settings", function ( resp ) {
+browser.runtime.sendMessage( "get_settings", function ( resp ) {
     console.log( "get_settings", resp )
     status  = "complete";
-    storage = { ...resp };
+    storage = $.extend( {}, resp );
 
     storage.trigger_prefix != "" && ( trigger.prefix = storage.trigger_prefix );
     storage.trigger_suffix != "" && ( trigger.suffix = storage.trigger_suffix );
@@ -96,7 +96,7 @@ function face( filter ) {
     const reg     = new RegExp( `(${trigger.prefix})| `, "ig" );
     filter        = filter.replace( reg, "" );
     let   html    = "", count = 0, char = "";
-    const baseUrl = chrome.extension.getURL( "assets/faces/" ),
+    const baseUrl = browser.extension.getURL( "assets/faces/" ),
           render  = ( item, type ) => {
             count++;
             char  = item.chars[0];
@@ -185,7 +185,7 @@ function insert( value ) {
             $input[0].focus();
         }, 100 );
     }
-    chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "insert" }});
+    browser.runtime.sendMessage({ id: "analytics", value: { eventCategory: "emoji", eventAction : "insert" }});
 }
 
 /**
@@ -262,13 +262,13 @@ function unicode( input ) {
  * Mouse up event handler
  */
 
-$( "body" ).on( "mouseover", mouseUpEventHandle );
+$( "body" ).on( "mouseup", mouseUpEventHandle );
 function mouseUpEventHandle( event ) {
-    event.type == "mouseover" && [ "input", "textarea" ].includes( event.target.nodeName.toLowerCase() ) &&
+    event.type == "mouseup" && [ "input", "textarea" ].includes( event.target.nodeName.toLowerCase() ) &&
         ( $input = $( event.target ));
 }
 
-chrome.runtime.onMessage.addListener( request => {
+browser.runtime.onMessage.addListener( request => {
     if ( request.type == "rightclick" && insert_type != "key" ) {
         insert_type = "menu";
         face( "::  " );

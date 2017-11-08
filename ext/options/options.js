@@ -22,7 +22,7 @@ details = new Map([
 /**
 * Entry: Get settings from response
 */
-chrome.runtime.sendMessage( "get_settings", function ( resp ) {
+browser.runtime.sendMessage( "get_settings", function ( resp ) {
     console.log( "get_settings", resp )
     $( "body" ).velocity({ opacity: 1 }, { duration: 1000, complete: ()=> {
         $( "body" ).removeAttr( "style" );
@@ -60,7 +60,7 @@ function settingRender( options ) {
  ***********************/
 
 // Google Analytics
-chrome.runtime.sendMessage({ id: "analytics", value: { eventCategory: "option", eventAction : "open" }});
+browser.runtime.sendMessage({ id: "analytics", value: { eventCategory: "option", eventAction : "open" }});
 
 // Start of Async Drift Code
 !function() {
