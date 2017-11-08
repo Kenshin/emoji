@@ -63,7 +63,7 @@ export default class Setting extends React.Component {
                     onChange={ (s)=>this.onChange(s, "clip" ) } />
                 <Switch width="100%" checked={ this.props.options.clicked }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
-                    label="Popup Tab 栏是否启用点击切换？（默认为鼠标悬停切换）"
+                    label="Popup Tab 栏是否启用点击切换？（取消后则为悬停切换）"
                     onChange={ (s)=>this.onChange(s, "clicked" ) } />
                 <Switch width="100%" checked={ this.props.options.menu }
                     thumbedColor="#94AC3C" trackedColor="#94AC3C" waves="md-waves-effect"
