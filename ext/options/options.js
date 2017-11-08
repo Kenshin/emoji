@@ -40,8 +40,8 @@ function hashnotify() {
         new Notify().Render( "+Emoji 版本提示", `感谢使用 +Emoji 😄 ，如需帮助请看 <a href="https://github.com/kenshin/emoji/wiki" target="_blank">入门指引</a>` );
     }
     else if ( type.startsWith( "?update" ) ) {
-        type = type.replace( "?update=", "" ).replace( /\./ig, "" );
-        new Notify().Render( "+Emoji 版本提示", ` 🎉 已升级到 ${type}，` + details.get(type) + `详细请看 <a href="https://github.com/Kenshin/emoji/blob/master/CHANGELOG.md#${type}" target="_blank">更新日志</a>` );
+        type = type.replace( "?update=", "" );
+        new Notify().Render( "+Emoji 版本提示", ` 🎉 已升级到 ${type}，` + details.get(type) + `详细请看 <a href="https://github.com/Kenshin/emoji/blob/master/CHANGELOG.md#${type.replace( /\./ig, "" )}" target="_blank">更新日志</a>` );
     }
     history.pushState( "", "", "/options/options.html" );
 }
